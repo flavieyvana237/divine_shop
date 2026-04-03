@@ -1,0 +1,17 @@
+services:
+  docs:
+    image: divine_shop_local_docs
+    container_name: divine_shop_local_docs
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - /app/.venv
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./divine_shop:/app/divine_shop:z
+    ports:
+      - '9000:9000'
+    command: /start-docs
