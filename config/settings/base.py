@@ -54,7 +54,6 @@ DATABASES = {
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -88,9 +87,14 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "divine_shop.users",
     # Your stuff: custom apps go here
+    "products",
+    "orders",
+    "formations",
+    "announcements",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
