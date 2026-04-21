@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ product.name }} - Divine Shop{% endblock %}
+{% block content %}
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-12 py-10">
+    <!-- Bouton retour -->
+    <a href="{% url 'products:product_list' %}"
+       class="inline-flex items-center gap-2 text-rose-700 hover:text-rose-900 mb-8">← Retour à la boutique</a>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Images -->
+      <div>
+        {% if product.images.all %}
+          <img src="{{ product.images.first.image.url }}"
+               alt="{{ product.name }}"
+               class="w-full rounded-3xl shadow-lg" />
+        {% elif product.image %}
+          <img src="{{ product.image.url }}"
+               alt="{{ product.name }}"
+               class="w-full rounded-3xl shadow-lg" />
+        {% else %}
+          <div class="w-full aspect-square bg-gray-200 rounded-3xl flex items-center justify-center">
+            <span class="text-gray-400">Pas d'image disponible</span>
+          </div>
+        {% endif %}
+      </div>
+      <!-- Informations produit -->
+      <div>
+        <p class="text-purple-600 font-medium">{{ product.category.name }}</p>
+        <h1 class="text-4xl font-serif italic mt-2">{{ product.name }}</h1>
+        <p class="text-3xl font-semibold text-rose-900 mt-6">{{ product.price }} FCFA</p>
+        <div class="mt-8">
+          <h3 class="font-medium mb-3">Description</h3>
+          <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
+        </div>
+        <div class="mt-10">
+          <button onclick="alert('Fonctionnalité panier bientôt disponible !')"
+                  class="w-full bg-black text-white py-5 rounded-2xl text-lg font-medium hover:bg-gray-800 transition">
+            Ajouter au panier
+          </button>
+        </div>
+        <div class="mt-8 text-sm text-gray-500">
+          Stock disponible : <span class="font-semibold text-green-600">{{ product.stock }} pièces</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
