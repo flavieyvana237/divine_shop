@@ -1,13 +1,12 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Divine Shop | Accueil{% endblock title %}
-
+{% block title %}
+  Divine Shop | Accueil
+{% endblock title %}
 {% block bodyclass %}
-bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container
+  bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container
 {% endblock bodyclass %}
-
 {% block body %}
-
   <main>
     {% include "pages/components/hero.html" %}
     {% include "pages/includes/about.html" %}
@@ -16,5 +15,4 @@ bg-surface text-on-surface font-body selection:bg-primary-container selection:te
     {% include "pages/includes/testimonials.html" %}
     {% include "pages/includes/newsletter.html" %}
   </main>
- 
 {% endblock body %}

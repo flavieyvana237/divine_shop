@@ -3,8 +3,8 @@
 
 from pathlib import Path
 
-from decouple import AutoConfig
 import environ
+from decouple import AutoConfig
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # divine_shop/

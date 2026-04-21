@@ -1,104 +1,121 @@
 {% load static %}
-<!doctype html>
+
+<!DOCTYPE html>
 <html class="light" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Divine Shop{% endblock title %}</title>
+    <title>
+      {% block title %}
+        Divine Shop
+      {% endblock title %}
+    </title>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.min.js"></script>
-
     {% block css %}
-  <link href="{% static 'css/output.css' %}" rel="stylesheet" />
-  <link href="{% static 'css/project.css' %}" rel="stylesheet" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind Config -->
-  <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "on-primary-fixed": "#40000b",
-              surface: "#f0f8ff",
-              "on-secondary-fixed-variant": "#574500",
-              "on-surface-variant": "#4d4635",
-              "inverse-primary": "#ffb3b5",
-              secondary: "#735c00",
-              "on-tertiary-fixed-variant": "#474836",
-              "primary-fixed": "#ffdada",
-              outline: "#7f7663",
-              "secondary-container": "#fed65b",
-              "surface-bright": "#f0f8ff",
-              "secondary-fixed": "#ffe088",
-              "inverse-on-surface": "#f2f1ee",
-              "surface-container-high": "#e1edf7",
-              "on-error-container": "#93000a",
-              "on-primary": "#ffffff",
-              "on-tertiary-container": "#454634",
-              "surface-variant": "#e3e2e0",
-              "tertiary-fixed": "#e4e4cc",
-              "surface-container-highest": "#dbe9f5",
-              "on-secondary-container": "#745c00",
-              "on-error": "#ffffff",
-              tertiary: "#5e604d",
-              "surface-tint": "#af2b3e",
-              "surface-dim": "#d5e4f2",
-              "primary-container": "#ff959a",
-              primary: "#af2b3e",
-              "surface-container": "#eaf4fc",
-              "surface-container-lowest": "#ffffff",
-              background: "#f0f8ff",
-              "outline-variant": "#d0c5af",
-              "error-container": "#ffdad6",
-              "on-primary-container": "#8b0c27",
-              error: "#ba1a1a",
-              "tertiary-fixed-dim": "#c8c8b0",
-              "on-tertiary": "#ffffff",
-              "on-secondary-fixed": "#241a00",
-              "inverse-surface": "#2f312f",
-              "on-surface": "#1a1c1a",
-              "on-background": "#1a1c1a",
-              "surface-container-low": "#f5faff",
-              "tertiary-container": "#b4b49d",
-              "on-primary-fixed-variant": "#8e0f28",
-              "on-secondary": "#ffffff",
-              "primary-fixed-dim": "#ffb3b5",
-              "on-tertiary-fixed": "#1b1d0e",
-              "secondary-fixed-dim": "#e9c349",
-              "accent-gold": "#D4AF37",
-            },
-            borderRadius: {
-              DEFAULT: "0.125rem",
-              lg: "0.25rem",
-              xl: "0.5rem",
-              full: "0.75rem",
-            },
-            fontFamily: {
-              headline: ["Noto Serif"],
-              body: ["Manrope"],
-              label: ["Manrope"],
+      <link href="{% static 'css/output.css' %}" rel="stylesheet" />
+      <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet" />
+      <!-- Tailwind Config -->
+      <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-primary-fixed": "#40000b",
+                surface: "#f0f8ff",
+                "on-secondary-fixed-variant": "#574500",
+                "on-surface-variant": "#4d4635",
+                "inverse-primary": "#ffb3b5",
+                secondary: "#735c00",
+                "on-tertiary-fixed-variant": "#474836",
+                "primary-fixed": "#ffdada",
+                outline: "#7f7663",
+                "secondary-container": "#fed65b",
+                "surface-bright": "#f0f8ff",
+                "secondary-fixed": "#ffe088",
+                "inverse-on-surface": "#f2f1ee",
+                "surface-container-high": "#e1edf7",
+                "on-error-container": "#93000a",
+                "on-primary": "#ffffff",
+                "on-tertiary-container": "#454634",
+                "surface-variant": "#e3e2e0",
+                "tertiary-fixed": "#e4e4cc",
+                "surface-container-highest": "#dbe9f5",
+                "on-secondary-container": "#745c00",
+                "on-error": "#ffffff",
+                tertiary: "#5e604d",
+                "surface-tint": "#af2b3e",
+                "surface-dim": "#d5e4f2",
+                "primary-container": "#ff959a",
+                primary: "#af2b3e",
+                "surface-container": "#eaf4fc",
+                "surface-container-lowest": "#ffffff",
+                background: "#f0f8ff",
+                "outline-variant": "#d0c5af",
+                "error-container": "#ffdad6",
+                "on-primary-container": "#8b0c27",
+                error: "#ba1a1a",
+                "tertiary-fixed-dim": "#c8c8b0",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed": "#241a00",
+                "inverse-surface": "#2f312f",
+                "on-surface": "#1a1c1a",
+                "on-background": "#1a1c1a",
+                "surface-container-low": "#f5faff",
+                "tertiary-container": "#b4b49d",
+                "on-primary-fixed-variant": "#8e0f28",
+                "on-secondary": "#ffffff",
+                "primary-fixed-dim": "#ffb3b5",
+                "on-tertiary-fixed": "#1b1d0e",
+                "secondary-fixed-dim": "#e9c349",
+                "accent-gold": "#D4AF37",
+              },
+              borderRadius: {
+                DEFAULT: "0.125rem",
+                lg: "0.25rem",
+                xl: "0.5rem",
+                full: "0.75rem",
+              },
+              fontFamily: {
+                headline: ["Noto Serif"],
+                body: ["Manrope"],
+                label: ["Manrope"],
+              },
             },
           },
-        },
-      };
-    </script>
+        };
+      </script>
+      <!-- Custom Styles -->
+      <style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+          vertical-align: middle;
+        }
 
-  <!-- Custom Styles -->
-  <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
-    .liquid-soft-transition { transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
-    .glass-nav { backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
-    .star-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  </style>
-{% endblock css %}
-{%include "pages/components/navbar.html"%}
+        .liquid-soft-transition {
+          transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-nav {
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+        }
+
+        .star-filled {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+    {% endblock css %}
+    {% include "pages/components/navbar.html" %}
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    {% block body %}{% endblock body %}
-    {%include "pages/components/footer.html"%}
+    {% block body %}
+    {% endblock body %}
+    {% include "pages/components/footer.html" %}
   </body>
 </html>

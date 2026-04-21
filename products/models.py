@@ -9,7 +9,7 @@ class Category(models.Model):
 
     name = models.CharField(_("Nom"), max_length=100, unique=True)
     slug = models.SlugField(_("Slug"), max_length=120, unique=True)
-    description = models.TextField(_("Description"), blank=True , null=True)
+    description = models.TextField(_("Description"), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

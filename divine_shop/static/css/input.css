@@ -40,7 +40,7 @@
   .product-image-container {
     @apply w-full overflow-hidden relative rounded-sm bg-slate-50;
     /* On définit la hauteur ici une seule fois */
-    height: 380px; 
+    height: 380px;
   }
 
   /* Version responsive si tu veux qu'elle change sur mobile */
@@ -58,5 +58,3 @@
     @apply font-serif italic text-3xl md:text-5xl text-slate-900 text-center mb-12;
   }
 }
-
-
