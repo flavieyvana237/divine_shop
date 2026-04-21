@@ -272,3 +272,5 @@ divine_shop/media/
 
 .pytest_cache/
 db.sqlite3
+.env
+.env

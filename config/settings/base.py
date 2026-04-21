@@ -3,14 +3,16 @@
 
 from pathlib import Path
 
+from decouple import AutoConfig
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # divine_shop/
 APPS_DIR = BASE_DIR / "divine_shop"
+config = AutoConfig(search_path=BASE_DIR)
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+READ_DOT_ENV_FILE = config("DJANGO_READ_DOT_ENV_FILE", default=False, cast=bool)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR / ".env"))

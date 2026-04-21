@@ -95,10 +95,10 @@
     .star-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
   </style>
 {% endblock css %}
-{%include "pages/components/navbar.html"%}
+{%include "includes/navbar.html"%}
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}{% endblock body %}
-    {%include "pages/components/footer.html"%}
+    {%include "includes/footer.html"%}
   </body>
 </html>
