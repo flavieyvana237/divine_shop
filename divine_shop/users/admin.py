@@ -9,8 +9,6 @@ from .forms import UserAdminCreationForm
 from .models import User
 
 if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
-    # Force the `admin` sign in process to go through the `django-allauth` workflow:
-    # https://docs.allauth.org/en/latest/common/admin.html#admin
     admin.autodiscover()
     admin.site.login = secure_admin_login(admin.site.login)  # type: ignore[method-assign]
 
@@ -19,9 +17,14 @@ if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
 class UserAdmin(auth_admin.UserAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
+
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("name", "email")}),
+        (
+            _("Informations personnelles"),
+            {"fields": ("name", "email", "phone", "profile_image")},
+        ),
+        (_("Rôle"), {"fields": ("role",)}),  # ← nouveau
         (
             _("Permissions"),
             {
@@ -34,7 +37,13 @@ class UserAdmin(auth_admin.UserAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (_("Dates importantes"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "name", "is_superuser"]
-    search_fields = ["name"]
+
+    # Ce que la créatrice verra dans la liste des utilisateurs
+    list_display = ["username", "name", "email", "role", "is_superuser"]
+
+    # Filtrer par rôle dans l'admin
+    list_filter = ["role", "is_superuser", "is_active"]
+
+    search_fields = ["username", "name", "email"]
