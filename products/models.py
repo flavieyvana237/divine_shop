@@ -1,15 +1,24 @@
+import uuid
+
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-# Create your models here.
 
 
 class Category(models.Model):
     """Catégorie d'accessoires en perles"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Nom"), max_length=100, unique=True)
     slug = models.SlugField(_("Slug"), max_length=120, unique=True)
-    description = models.TextField(_("Description"), blank=True, null=True)
+    description = models.TextField(_("Description"), blank=True, default="")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="categories",
+        verbose_name=_("Créée par"),
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -24,11 +33,20 @@ class Category(models.Model):
 class Product(models.Model):
     """Produit (accessoire en perles)"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         related_name="products",
         verbose_name=_("Catégorie"),
+    )
+    seller = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="products",
+        verbose_name=_("Vendeur"),
+        null=True,  # ← ajoute ces deux lignes
+        blank=True,  # ← temporairement
     )
     name = models.CharField(_("Nom du produit"), max_length=200)
     slug = models.SlugField(_("Slug"), max_length=250, unique=True)
@@ -47,10 +65,20 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} - {self.price} FCFA"
 
+    def get_main_image(self):
+        """Retourne l'image principale du produit"""
+        main = self.images.filter(is_main=True).first()
+        return main or self.images.first()
+
+    def is_in_stock(self):
+        """Vérifie si le produit est en stock"""
+        return self.stock > 0 and self.is_available
+
 
 class ProductImage(models.Model):
     """Images multiples pour un même produit"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
