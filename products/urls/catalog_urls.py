@@ -1,0 +1,20 @@
+from django.urls import path
+
+from products.views.catalog_views import CategoryProductListView
+from products.views.catalog_views import ProductDetailView
+from products.views.catalog_views import ProductListView
+
+name_space = "catalog"
+
+urlpatterns = [
+    path("", ProductListView.as_view(), name="product_list"),
+    path(
+        "categorie/<slug:slug>/",
+        CategoryProductListView.as_view(),
+        name="category_products",
+    ),
+    path("<slug:slug>/", ProductDetailView.as_view(), name="product_detail"),
+]
+
+# pour verifier les urls
+# python manage.py show_urls | grep products
