@@ -1,0 +1,157 @@
+{% extends "pages/base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Boutique — Divine Shop
+{% endblock title %}
+{% block body %}
+  <!-- Header avec image de fond — ton design original -->
+</br />
+</br />
+</br />
+<section class="bg-white py-12 px-4 md:px-8 border-b border-stone-100">
+  <div class="container mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-8">
+    <!-- Texte gauche -->
+    <div class="w-full md:w-1/2 flex flex-col gap-5">
+      <!-- Badge -->
+      <span class="inline-flex items-center gap-2 w-fit bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full">
+        ✦ Artisanat d'Exception
+      </span>
+      <!-- Titre avec mélange de couleurs -->
+      <h1 class="text-3xl md:text-4xl font-serif leading-tight">
+        <span class="text-stone-900">L'élégance</span>
+        <span class="italic text-amber-600">intemporelle,</span>
+        <br />
+        <span class="text-stone-900">façonnée</span>
+        <span class="text-stone-600 font-light">à la main</span>
+      </h1>
+      <!-- Séparateur décoratif -->
+      <div class="flex items-center gap-3">
+        <div class="h-px w-8 bg-amber-400"></div>
+        <span class="text-amber-400 text-xs">✦</span>
+        <div class="h-px w-8 bg-amber-400"></div>
+      </div>
+      <!-- Description -->
+      <p class="text-stone-500 font-light text-base leading-relaxed max-w-md pl-8">
+        Découvrez nos accessoires en perles, façonnés à la main avec passion.
+        Chaque pièce raconte une histoire d'élégance et de
+        <span class="text-amber-700 font-medium">savoir-faire artisanal</span>
+        hérité de nos traditions.
+      </p>
+      <!-- Stats rapides -->
+      <div class="flex gap-8 pt-2 pl-20">
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold text-stone-800">100%</span>
+          <span class="text-xs text-green-700 uppercase tracking-wider">Fait main</span>
+        </div>
+        <div class="w-px bg-stone-200"></div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold text-stone-800">Premium</span>
+          <span class="text-xs text-blue-400 uppercase tracking-wider">Qualité</span>
+        </div>
+        <div class="w-px bg-stone-200"></div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold text-amber-600">Unique</span>
+          <span class="text-xs text-violet-600 uppercase tracking-wider">Design</span>
+        </div>
+      </div>
+    </div>
+    <!-- Image droite -->
+    <div class="w-full md:w-1/2 flex justify-center md:justify-end relative">
+      <!-- Cercle décoratif derrière l'image -->
+      <div class="absolute w-72 h-72 rounded-full bg-amber-50 -z-0"></div>
+      <img src="{% static 'images/products/panier1.png' %}"
+           alt="Accessoires en perles Divine Shop"
+           class="relative z-10 max-w-xs md:max-w-sm h-auto mix-blend-multiply pr-20" />
+    </div>
+  </div>
+</section>
+<!-- Contenu principal -->
+<main class="max-w-screen-2xl mx-auto px-8 py-16">
+  <div class="flex flex-col lg:flex-row gap-16">
+    <!-- Sidebar filtres -->
+    <aside class="w-full lg:w-64 flex-shrink-0">
+      <h2 class="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-6">Catégories</h2>
+      <ul class="space-y-1">
+        <li>
+          <a href="{% url 'catalog:product_list' %}"
+             class="block px-3 py-2 rounded-lg text-stone-600 hover:text-amber-700 hover:bg-amber-50 transition-colors duration-200 text-sm {% if not current_category %}font-semibold text-amber-700{% endif %}">
+            Tous les produits
+          </a>
+        </li>
+        {% for category in categories %}
+          <li>
+            <a href="{% url 'catalog:category_products' category.slug %}"
+               class="block px-3 py-2 rounded-lg text-stone-600 hover:text-amber-700 hover:bg-amber-50 transition-colors duration-200 text-sm {% if current_category.slug == category.slug %}font-semibold text-amber-700{% endif %}">
+              {{ category.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
+    <!-- Grille produits -->
+    <div class="flex-1">
+      <!-- Nombre de résultats -->
+      <p class="text-stone-400 text-sm mb-8">
+        {{ paginator.count }} produit{{ paginator.count|pluralize }} trouvé{{ paginator.count|pluralize }}
+      </p>
+      {% if not products %}
+        <p class="text-slate-500 italic">Aucun article disponible pour le moment.</p>
+      {% else %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-16">
+          {% for product in products %}
+            <!-- Carte produit -->
+            <a href="{% url 'catalog:product_detail' product.slug %}"
+               class="group flex flex-col">
+              <!-- Image -->
+              <div class="aspect-square overflow-hidden rounded-xl bg-stone-100 mb-4">
+                {% with product.get_main_image as main_image %}
+                  {% if main_image %}
+                    <img src="{{ main_image.image.url }}"
+                         alt="{{ product.name }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {% else %}
+                    <div class="w-full h-full flex items-center justify-center">
+                      <span class="text-stone-300 text-sm">Aucune image</span>
+                    </div>
+                  {% endif %}
+                {% endwith %}
+              </div>
+              <!-- Infos -->
+              <div class="flex flex-col flex-1">
+                <p class="text-xs text-amber-600 uppercase tracking-wider mb-1">{{ product.category.name }}</p>
+                <h3 class="text-stone-800 font-medium mb-2 group-hover:text-amber-700 transition-colors duration-200">
+                  {{ product.name }}
+                </h3>
+                <div class="flex items-center justify-between mt-auto">
+                  <span class="text-stone-800 font-semibold">{{ product.price }} FCFA</span>
+                  {% if product.is_in_stock %}
+                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">En stock</span>
+                  {% else %}
+                    <span class="text-xs text-red-500 bg-red-50 px-2 py-1 rounded-full">Rupture</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+        <!-- Pagination -->
+        {% if is_paginated %}
+          <div class="mt-20 flex justify-center items-center gap-8 border-t border-slate-100 pt-10">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}"
+                 class="text-slate-400 hover:text-slate-900 uppercase text-xs tracking-widest">← Précédent</a>
+            {% endif %}
+            <span class="text-amber-600 font-bold border-b-2 border-amber-600 px-2">{{ page_obj.number }}</span>
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}"
+                 class="text-slate-400 hover:text-slate-900 uppercase text-xs tracking-widest">Suivant →</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</main>
+{% endblock body %}
