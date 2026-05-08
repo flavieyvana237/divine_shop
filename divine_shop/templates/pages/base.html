@@ -30,7 +30,8 @@
     <!-- Footer -->
     {% include "pages/components/footer.html" %}
     <!-- Scripts -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- ✅ Nouvelle ligne locale -->
+    <script defer src="{% static 'js/alpine.min.js' %}"></script>
     {% block extra_js %}
     {% endblock extra_js %}
   </body>

@@ -1,14 +1,16 @@
 <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-stone-100 transition-all duration-300">
   <div class="flex justify-between items-center px-6 py-4 w-full max-w-screen-2xl mx-auto">
-    <a href="/"
-       class="text-2xl font-serif italic font-bold text-slate-900 tracking-tight">
-      Divine<span class="text-amber-600">Shop</span>
-    </a>
     <div class="hidden md:flex items-center space-x-8">
-      <a href="#" class="nav-link-active text-slate-900">Home</a>
-      <a href="{% url 'catalog:product_list' %}" class="nav-link">Shop</a>
-      <a href="#" class="nav-link">Collections</a>
-      <a href="#" class="nav-link">About</a>
+      <a href="{% url 'home' %}"
+         class="{% if request.resolver_match.url_name == 'home' %}nav-link-active{% else %}nav-link{% endif %}">
+        Home
+      </a>
+      <a href="{% url 'catalog:product_list' %}"
+         class="{% if 'catalog' in request.resolver_match.namespace %}nav-link-active{% else %}nav-link{% endif %}">
+        Shop
+      </a>
+      <a href="{% url 'catalog:feature_collection' %}" class="nav-link">Collections</a>
+      <a href="{% url 'catalog:about' %}" class="nav-link">About</a>
     </div>
     <div class="flex items-center space-x-6">
       <div class="flex items-center space-x-4 text-slate-700 border-r border-stone-200 pr-4">
@@ -24,11 +26,11 @@
         </button>
       </div>
       <div class="flex items-center space-x-5">
-        <a href="#"
+        <a href="{% url 'catalog:login' %}"
            class="text-xs font-semibold uppercase tracking-widest text-slate-600 hover:text-amber-600 transition">
           Login
         </a>
-        <a href="#" class="btn-primary">Sign Up</a>
+        <a href="{% url 'catalog:sign_up' %}" class="btn-primary">Sign Up</a>
       </div>
     </div>
   </div>

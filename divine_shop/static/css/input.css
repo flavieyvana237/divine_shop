@@ -57,4 +57,22 @@
   .text-section-title {
     @apply font-serif italic text-3xl md:text-5xl text-slate-900 text-center mb-12;
   }
+
+
+  .nav-link {
+    @apply text-sm font-medium text-slate-600 uppercase tracking-widest
+           hover:text-amber-600 transition-colors duration-200
+           relative after:absolute after:bottom-0 after:left-0
+           after:w-0 after:h-[2px] after:bg-amber-600
+           after:transition-all after:duration-300
+           hover:after:w-full;
+  }
+
+  /* Lien navbar actif */
+  .nav-link-active {
+    @apply text-sm font-medium text-amber-600 uppercase tracking-widest
+           relative after:absolute after:bottom-0 after:left-0
+           after:w-full after:h-[2px] after:bg-amber-600;
+  }
+
 }
