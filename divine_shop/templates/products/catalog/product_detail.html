@@ -1,0 +1,126 @@
+{% extends "pages/base.html" %}
+
+{% load static %}
+
+{% block title %}
+  {{ product.name }} — Divine Shop
+{% endblock title %}
+{% block body %}
+  <main class="max-w-screen-2xl mx-auto px-6 md:px-16 py-18 pt-20">
+    <!-- Bouton retour -->
+    <a href="{% url 'catalog:product_list' %}"
+       class="inline-flex items-center gap-2 text-stone-400 hover:text-amber-600 transition-colors duration-200 text-sm uppercase tracking-wider mb-10">
+      ← Retour à la boutique
+    </a>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <!-- Colonne gauche — Images avec Alpine.js -->
+      <!-- ✅ x-data initialise Alpine avec l'URL de l'image principale -->
+      <div class="flex flex-col gap-4" x-data="{ currentImage: '
+        {% if product.get_main_image %}{{ product.get_main_image.image.url }}{% endif %}
+        ' }">
+        <!-- Image principale — taille réduite avec max-w-sm -->
+        <div class="w-full max-w-sm mx-auto aspect-square rounded-2xl overflow-hidden bg-stone-100">
+          <!-- ✅ :src lie dynamiquement la source à la variable currentImage -->
+          <img :src="currentImage"
+               alt="{{ product.name }}"
+               class="w-full h-full object-cover" />
+        </div>
+        <!-- Miniatures cliquables -->
+        {% if product.images.count > 1 %}
+          <div class="grid grid-cols-4 gap-3 max-w-sm mx-auto w-full">
+            {% for image in product.images.all %}
+              <!-- ✅ @click change currentImage au clic → l'image principale se met à jour -->
+              <div class="aspect-square rounded-lg overflow-hidden bg-stone-100 cursor-pointer border-2 border-transparent hover:border-amber-400 transition-all duration-200"
+                   @click="currentImage = '{{ image.image.url }}'">
+                <img src="{{ image.image.url }}"
+                     alt="{{ product.name }}"
+                     class="w-full h-full object-cover" />
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <!-- Colonne droite — Informations -->
+      <div class="flex flex-col gap-6">
+        <!-- Badge catégorie -->
+        <span class="inline-flex w-fit items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full">
+          ✦ {{ product.category.name }}
+        </span>
+        <!-- Nom du produit -->
+        <h1 class="text-3xl md:text-4xl font-serif italic text-stone-800 leading-tight">{{ product.name }}</h1>
+        <!-- Séparateur décoratif -->
+        <div class="flex items-center gap-3">
+          <div class="h-px w-8 bg-amber-400"></div>
+          <span class="text-amber-400 text-xs">✦</span>
+          <div class="h-px w-8 bg-amber-400"></div>
+        </div>
+        <!-- Prix -->
+        <div class="flex items-center gap-4">
+          <span class="text-3xl font-bold text-stone-800">{{ product.price }} FCFA</span>
+          {% if product.is_in_stock %}
+            <span class="text-xs text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full font-medium">✓ Disponible</span>
+          {% else %}
+            <span class="text-xs text-red-500 bg-red-50 px-3 py-1 rounded-full font-medium">Sur commande</span>
+          {% endif %}
+        </div>
+        <!-- Description -->
+        <div class="border-t border-stone-100 pt-6">
+          <h3 class="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-3">Description</h3>
+          <p class="text-stone-500 font-light leading-relaxed">{{ product.description }}</p>
+        </div>
+        <!-- Stock -->
+        <p class="text-sm text-stone-400">
+          Stock disponible :
+          <span class="font-semibold text-stone-600">{{ product.stock }} pièces</span>
+        </p>
+        <!-- Bouton panier -->
+        {% if product.is_in_stock %}
+          <button onclick="alert('Fonctionnalité panier bientôt disponible !')"
+                  class="w-full bg-stone-900 hover:bg-amber-700 text-white py-4 rounded-2xl text-sm font-medium uppercase tracking-widest transition-colors duration-300 mt-2">
+            Ajouter au panier
+          </button>
+        {% else %}
+          <button disabled
+                  class="w-full bg-stone-200 text-stone-400 py-4 rounded-2xl text-sm font-medium uppercase tracking-widest cursor-not-allowed mt-2">
+            Produit indisponible
+          </button>
+        {% endif %}
+      </div>
+    </div>
+    <!-- Produits similaires -->
+    {% if related_products %}
+      <section class="mt-24 border-t border-stone-100 pt-16">
+        <div class="flex items-center gap-3 mb-10">
+          <div class="h-px w-8 bg-amber-400"></div>
+          <p class="text-xs font-semibold tracking-widest text-amber-600 uppercase">Vous aimerez aussi</p>
+          <div class="h-px w-8 bg-amber-400"></div>
+        </div>
+        <!-- ✅ Taille des cartes produits similaires réduite avec max-w-xs -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {% for related in related_products %}
+            <a href="{% url 'catalog:product_detail' related.slug %}"
+               class="group flex flex-col">
+              <div class="aspect-square rounded-xl overflow-hidden bg-stone-100 mb-3">
+                {% with related.get_main_image as img %}
+                  {% if img %}
+                    <img src="{{ img.image.url }}"
+                         alt="{{ related.name }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {% else %}
+                    <div class="w-full h-full flex items-center justify-center">
+                      <span class="text-stone-300 text-xs">Aucune image</span>
+                    </div>
+                  {% endif %}
+                {% endwith %}
+              </div>
+              <p class="text-stone-700 text-sm font-medium group-hover:text-amber-700 transition-colors duration-200">
+                {{ related.name }}
+              </p>
+              <p class="text-stone-500 text-sm mt-1">{{ related.price }} FCFA</p>
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </main>
+{% endblock body %}
