@@ -12,6 +12,7 @@ class Category(models.Model):
     name = models.CharField(_("Nom"), max_length=100, unique=True)
     slug = models.SlugField(_("Slug"), max_length=120, unique=True)
     description = models.TextField(_("Description"), blank=True, default="")
+    image= models.ImageField(_("Image de la catégorie"), upload_to="categories/", blank=True, null=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
