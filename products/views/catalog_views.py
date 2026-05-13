@@ -1,8 +1,27 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from django.views.generic import ListView
-
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from django.views import View
+from django.db import models
 from products.models import Category
 from products.models import Product
+
+
+
+class HomeView(TemplateView):
+    template_name = "home/index.html"  # adapte selon ton chemin
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # On prend les 4 premières catégories qui ont une image
+        context["featured_categories"] = (
+            Category.objects.exclude(image="")
+            .exclude(image__isnull=True)
+            .order_by("name")[:4]
+        )
+        return context
 
 
 class ProductListView(ListView):
@@ -94,3 +113,31 @@ class CategoryProductListView(ListView):
         context["categories"] = Category.objects.all()
         context["current_category"] = self.category
         return context
+    
+
+class ProductSearchView(View):
+    def get(self, request):
+        query = request.GET.get("q", "").strip()
+        products = []
+        categories = []
+
+        if len(query) >= 2:
+            products = (
+                Product.objects.filter(
+                    models.Q(name__icontains=query) |
+                    models.Q(description__icontains=query),
+                    is_available=True,
+                )
+                .select_related("category")
+                .prefetch_related("images")[:5]
+            )
+
+            categories = Category.objects.filter(
+                name__icontains=query
+            )[:3]
+
+        return render(request, "products/catalog/search_result.html", {
+            "products": products,
+            "categories": categories,
+            "query": query,
+        })

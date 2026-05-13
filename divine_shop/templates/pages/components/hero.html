@@ -1,40 +1,279 @@
 {% load static %}
 {% load i18n %}
 
-<section class="relative min-h-[75vh] lg:min-h-[80vh] flex items-center overflow-hidden bg-slate-900 pt-10">
-  <div class="absolute inset-0 z-0">
-    <img src="{% static 'images/hero/hero.png' %}"
-         alt="Artisanat de perles DivinShop"
-         class="w-full h-full object-cover opacity-80" />
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/40 to-transparent"></div>
-  </div>
-  <div class="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16 pt-10">
-    <div class="max-w-3xl">
-      <span class="inline-block px-4 py-1.5 border border-amber-500/30 bg-amber-500/10 backdrop-blur-md text-[10px] uppercase tracking-[0.2em] font-bold text-amber-500 mb-8 rounded-md">
-        Artisanat d'Excellence
-      </span>
-      <h1 class="text-title-hero text-white mb-8">
-        L'élégance intemporelle,
-        <br />
-        <span class="italic text-amber-500 pl-4">façonnée à la main.</span>
-      </h1>
-      <p class="text-lg md:text-xl text-slate-200 max-w-xl mb-12 leading-relaxed pl-8">
-        Découvrez des accessoires en perles uniques où l'héritage africain
-        rencontre la sophistication moderne.
-      </p>
-      <div class="flex flex-wrap gap-10 pl-28 pt-8">
-        <a href="{% url 'catalog:product_list' %}"
-           class="btn-primary py-4 px-10 text-sm shadow-2xl shadow-amber-900/20 rounded-lg">Découvrir la collection</a>
-        <a href="#"
-           class="inline-flex items-center gap-2 text-white font-semibold uppercase tracking-widest text-xs hover:text-amber-500 transition-colors group">
-          Nos Formations
-          <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
-        </a>
+<!-- 
+  HERO CAROUSEL — 3 slides
+  Géré par Alpine.js
+-->
+<section class="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-slate-900"
+         x-data="{
+           currentSlide: 0,
+           totalSlides: 3,
+           autoplay: true,
+           lightboxOpen: false,
+           lightboxImage: '',
+
+           next() {
+             this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+           },
+           prev() {
+             this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+           },
+           goTo(index) {
+             this.currentSlide = index;
+           },
+           openLightbox(src) {
+             this.lightboxImage = src;
+             this.lightboxOpen = true;
+           }
+         }"
+         x-init="setInterval(() => { if(autoplay) next() }, 6000)">
+
+  <!-- ============ SLIDE 1 — Bienvenue ============ -->
+  <div class="hero-slide pt-16"
+       :class="currentSlide === 0 ? 'hero-slide-active' : 'hero-slide-inactive'">
+
+    <!-- Image de fond -->
+    <div class="absolute inset-0">
+      <img src="{% static 'images/hero/hero.png' %}"
+           alt="Divine Shop"
+           class="w-full h-full object-cover opacity-80" />
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/40 to-transparent"></div>
+    </div>
+
+    <!-- Contenu -->
+    <div class="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16
+                min-h-[75vh] lg:min-h-[80vh] flex items-center">
+      <div class="max-w-3xl">
+
+        <span class="inline-block px-4 py-1.5 border border-amber-500/30 bg-amber-500/10
+                     backdrop-blur-md text-[10px] uppercase tracking-[0.2em] font-bold
+                     text-amber-500 mb-8 rounded-md">
+          Artisanat d'Excellence
+        </span>
+
+        <h1 class="text-title-hero text-white mb-8">
+          L'élégance intemporelle,
+          <br />
+          <span class="italic text-amber-500 pl-4">façonnée à la main.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-slate-200 max-w-xl mb-12 leading-relaxed pl-8">
+          Découvrez des accessoires en perles uniques où l'héritage africain
+          rencontre la sophistication moderne.
+        </p>
+
+        <div class="flex flex-wrap gap-10 pl-28 pt-8">
+          <a href="#about"
+             class="btn-primary py-4 px-10 text-sm shadow-2xl shadow-amber-900/20 rounded-lg">
+            Découvrir notre histoire
+          </a>
+          <a href="#"
+             class="inline-flex items-center gap-2 text-white font-semibold
+                    uppercase tracking-widest text-xs hover:text-amber-500
+                    transition-colors group">
+            Nos Formations
+            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">
+              arrow_forward
+            </span>
+          </a>
+        </div>
+
       </div>
     </div>
   </div>
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-    <span class="w-[1px] h-12 bg-gradient-to-b from-amber-500 to-transparent animate-pulse"></span>
+
+  <!-- ============ SLIDE 2 — Collections avec Bento Grid ============ -->
+  <div class="hero-slide pt-16"
+       :class="currentSlide === 1 ? 'hero-slide-active' : 'hero-slide-inactive'">
+
+    <!-- Fond sombre -->
+    <div class="absolute inset-0 bg-stone-300"></div>
+
+    <!-- Contenu -->
+    <div class="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16
+                min-h-[75vh] lg:min-h-[80vh] flex items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full items-center">
+
+        <!-- Texte gauche -->
+        <div class="flex flex-col gap-6">
+          <span class="inline-block px-4 py-1.5 border border-amber-500/30 bg-amber-500/10
+                       text-[10px] uppercase tracking-[0.2em] font-bold text-amber-700
+                       rounded-md w-fit">
+            Nos Collections
+          </span>
+
+          <h2 class="text-4xl md:text-5xl font-serif text-blue-950 leading-tight">
+            Chaque pièce,
+            <br />
+            <span class="italic text-amber-700">une histoire unique.</span>
+          </h2>
+
+          <p class="text-slate-900 text-lg leading-relaxed max-w-md">
+            Colliers, bracelets, boucles d'oreilles — découvrez nos créations
+            artisanales et faites vos achats en toute confiance.
+          </p>
+
+          <a href="{% url 'catalog:product_list' %}"
+             class="btn-primary py-4 px-10 text-sm rounded-lg w-fit mt-4 ">
+            Voir la boutique
+          </a>
+        </div>
+
+        <!-- Bento Grid droite -->
+        <div class="grid grid-cols-3 grid-rows-2 gap-2 h-[400px] ">
+
+          <!-- Image grande — col 1, 2 lignes -->
+          <div class="bento-image row-span-2"
+               @click="openLightbox('{% static 'images/hero/image.png' %}')">
+            <img src="{% static 'images/hero/image.png' %}"
+                 alt="Collection 1"
+                 class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Image top centre -->
+          <div class="bento-image"
+               @click="openLightbox('{% static 'images/hero/sac1.png' %}')">
+            <img src="{% static 'images/hero/sac1.png' %}"
+                 alt="Collection 2"
+                 class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Image top droite -->
+          <div class="bento-image"
+               @click="openLightbox('{% static 'images/hero/chausure2.png' %}')">
+            <img src="{% static 'images/hero/chausure2.png' %}"
+                 alt="Collection 3"
+                 class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Image bas centre + droite — col 2 et 3 -->
+          <div class="bento-image col-span-2"
+               @click="openLightbox('{% static 'images/hero/bijoux1.png' %}')">
+            <img src="{% static 'images/hero/bijoux1.png' %}"
+                 alt="Collection 4"
+                 class="w-full h-full object-cover" />
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 3 — Formations avec vidéo ============ -->
+  <div class="hero-slide pt-16"
+       :class="currentSlide === 2 ? 'hero-slide-active' : 'hero-slide-inactive'">
+
+    <!-- Vidéo de fond -->
+    <div class="absolute inset-0">
+      <video class="w-full h-full object-cover opacity-60"
+             autoplay
+             muted
+             loop
+             playsinline
+             x-ref="formationVideo">
+        <source src="{% static 'images/hero/perle.16' %}" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/60 to-slate-950/40"></div>
+    </div>
+
+    <!-- Contenu -->
+    <div class="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16
+                min-h-[75vh] lg:min-h-[80vh] flex items-center">
+      <div class="max-w-2xl">
+
+        <span class="inline-block px-4 py-1.5 border border-amber-500/30 bg-amber-500/10
+                     text-[10px] uppercase tracking-[0.2em] font-bold text-amber-500
+                     mb-8 rounded-md">
+          Atelier de l'Héritage
+        </span>
+
+        <h2 class="text-4xl md:text-5xl font-serif text-white leading-tight mb-6">
+          Apprenez l'art
+          <br />
+          <span class="italic text-amber-400">du perlage ancestral.</span>
+        </h2>
+
+        <p class="text-slate-300 text-lg leading-relaxed max-w-lg mb-10">
+          Nos formations exclusives vous transmettent les techniques ancestrales
+          du perlage africain. Créez vos propres œuvres et perpétuez un héritage
+          d'exception.
+        </p>
+
+        <div class="flex flex-wrap gap-6">
+          <a href="#"
+             class="btn-primary py-4 px-10 text-sm rounded-lg bg-blue-800">
+            Voir les formations
+          </a>
+          <a href="#"
+             class="inline-flex items-center gap-2 text-white font-semibold
+                    uppercase tracking-widest text-xs hover:text-amber-500
+                    transition-colors group">
+            En savoir plus
+            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">
+              arrow_forward
+            </span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NAVIGATION — Flèches ============ -->
+  <button @click="prev(); autoplay = false"
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10
+                 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full
+                 flex items-center justify-center text-blue-400 transition-all duration-200">
+    ‹
+  </button>
+
+  <button @click="next(); autoplay = false"
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10
+                 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full
+                 flex items-center justify-center text-blue-400 transition-all duration-200">
+    ›
+  </button>
+
+  <!-- ============ INDICATEURS — Points ============ -->
+  <div class="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+    <template x-for="i in totalSlides" :key="i">
+      <button @click="goTo(i - 1); autoplay = false"
+              :class="currentSlide === i - 1 ? 'carousel-dot carousel-dot-active' : 'carousel-dot'">
+      </button>
+    </template>
+  </div>
+
+  <!-- ============ SCROLL INDICATOR ============ -->
+  <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+    <span class="w-[1px] h-8 bg-gradient-to-b from-amber-500 to-transparent animate-pulse"></span>
     <span class="text-[10px] text-amber-500 uppercase tracking-[0.3em]">Défiler</span>
   </div>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox-overlay"
+       x-show="lightboxOpen"
+       @click="lightboxOpen = false"
+       @keydown.escape.window="lightboxOpen = false"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-150"
+       x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0">
+
+    <div class="relative max-w-3xl max-h-[80vh] w-full" @click.stop>
+      <img :src="lightboxImage"
+           class="w-full h-full object-contain rounded-2xl" />
+      <button @click="lightboxOpen = false"
+              class="absolute -top-4 -right-4 w-8 h-8 bg-white rounded-full
+                     flex items-center justify-center text-stone-700
+                     hover:bg-amber-50 transition-colors text-lg font-bold">
+        ×
+      </button>
+    </div>
+
+  </div>
+
 </section>

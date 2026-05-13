@@ -75,4 +75,41 @@
            after:w-full after:h-[2px] after:bg-amber-600;
   }
 
+  
+  /* Carousel */
+  .hero-slide {
+    @apply absolute inset-0 transition-opacity duration-700 ease-in-out;
+  }
+
+  .hero-slide-active {
+    @apply opacity-100 z-10;
+  }
+
+  .hero-slide-inactive {
+    @apply opacity-0 z-0 pointer-events-none;
+  }
+
+  /* Indicateurs carousel */
+  .carousel-dot {
+    @apply w-2 h-2 rounded-full bg-white/40 cursor-pointer
+           transition-all duration-300 hover:bg-white/70;
+  }
+
+  .carousel-dot-active {
+    @apply w-3 bg-amber-500;
+  }
+
+  /* Bento grid images */
+  .bento-image {
+    @apply rounded-xl overflow-hidden cursor-pointer
+           transition-transform duration-300 hover:scale-105;
+  }
+
+  /* Lightbox */
+  .lightbox-overlay {
+    @apply fixed inset-0 bg-black/80 z-50 flex items-center
+           justify-center p-4 backdrop-blur-sm;
+  }
+
+
 }
