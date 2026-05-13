@@ -1,18 +1,21 @@
-import uuid
-
+import uuid  # ← plus besoin, BaseModel gère l'UUID
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from divine_shop.core.models import BaseModel  # ← import BaseModel
 
 
-class Category(models.Model):
+class Category(BaseModel):  # ← hérite de BaseModel
     """Catégorie d'accessoires en perles"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Nom"), max_length=100, unique=True)
     slug = models.SlugField(_("Slug"), max_length=120, unique=True)
     description = models.TextField(_("Description"), blank=True, default="")
-    image= models.ImageField(_("Image de la catégorie"), upload_to="categories/", blank=True, null=True)
+    image = models.ImageField(
+        _("Image"),
+        upload_to="categories/",
+        blank=True,
+        null=True,
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -20,7 +23,6 @@ class Category(models.Model):
         related_name="categories",
         verbose_name=_("Créée par"),
     )
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _("Catégorie")
@@ -31,10 +33,8 @@ class Category(models.Model):
         return self.name
 
 
-class Product(models.Model):
+class Product(BaseModel):  # ← hérite de BaseModel
     """Produit (accessoire en perles)"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -46,8 +46,8 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name="products",
         verbose_name=_("Vendeur"),
-        null=True,  # ← ajoute ces deux lignes
-        blank=True,  # ← temporairement
+        null=True,
+        blank=True,
     )
     name = models.CharField(_("Nom du produit"), max_length=200)
     slug = models.SlugField(_("Slug"), max_length=250, unique=True)
@@ -55,8 +55,6 @@ class Product(models.Model):
     price = models.DecimalField(_("Prix"), max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(_("Stock disponible"), default=0)
     is_available = models.BooleanField(_("Disponible"), default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = _("Produit")
@@ -67,19 +65,15 @@ class Product(models.Model):
         return f"{self.name} - {self.price} FCFA"
 
     def get_main_image(self):
-        """Retourne l'image principale du produit"""
         main = self.images.filter(is_main=True).first()
         return main or self.images.first()
 
     def is_in_stock(self):
-        """Vérifie si le produit est en stock"""
         return self.stock > 0 and self.is_available
 
 
-class ProductImage(models.Model):
+class ProductImage(BaseModel):  # ← hérite de BaseModel
     """Images multiples pour un même produit"""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
