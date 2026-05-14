@@ -100,11 +100,11 @@
 
       <!-- Login / Sign Up -->
       <div class="flex items-center space-x-5">
-        <a href="#"
-           class="text-xs font-semibold uppercase tracking-widest text-slate-600 hover:text-amber-600 transition">
-          Login
-        </a>
-        <a href="#" class="btn-primary">Sign Up</a>
+       <a href="{% url 'account_login' %}"
+   class="text-xs font-semibold uppercase tracking-widest text-slate-600 hover:text-amber-600 transition">
+  Login
+</a>
+        <a href="{% url 'account_signup' %}" class="btn-primary">Sign Up</a>
       </div>
 
     </div>

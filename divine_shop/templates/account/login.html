@@ -1,0 +1,170 @@
+{% extends "allauth/layouts/entrance.html" %}
+{% load i18n static %}
+
+{% block title %}Connexion — Divine Shop{% endblock %}
+
+{% block entrance_content %}
+
+<div class="min-h-screen grid lg:grid-cols-2">
+
+  <!-- Gauche — Formulaire (inversé) -->
+  <div class="flex items-center justify-center px-8 py-12 bg-white relative">
+
+    <div class="w-full max-w-sm relative z-20">
+
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="flex justify-center mb-8">
+        <span class="text-2xl font-serif italic font-bold text-stone-900">
+          Divine<span class="text-amber-600">Shop</span>
+        </span>
+      </a>
+
+      <!-- Titre -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-stone-800 mb-1">
+          Bienvenue !
+        </h1>
+        <p class="text-stone-400 text-sm mb-3">
+          Connectez-vous pour accéder à votre espace
+        </p>
+        <div class="flex items-center justify-center gap-3">
+          <div class="h-px w-8 bg-amber-400"></div>
+          <span class="text-amber-500 text-xs">✦</span>
+          <div class="h-px w-8 bg-amber-400"></div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      {% if messages %}
+        {% for message in messages %}
+        <div class="mb-4 px-4 py-3 rounded-xl text-sm
+                    {% if message.tags == 'error' %}bg-red-50 text-red-600 border border-red-200
+                    {% else %}bg-emerald-50 text-emerald-700 border border-emerald-200{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Formulaire -->
+      <form method="POST" action="{% url 'account_login' %}" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-stone-600 uppercase tracking-widest">
+            Nom d'utilisateur
+          </label>
+          <input type="text" name="login"
+                 placeholder="votre_nom" required
+                 class="w-full px-4 py-3 rounded-xl border-2 border-stone-200
+                        text-stone-800 text-sm font-medium placeholder-stone-300
+                        focus:outline-none focus:border-amber-400
+                        focus:ring-4 focus:ring-amber-100 transition-all" />
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="flex flex-col gap-1.5" x-data="{ show: false }">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-stone-600 uppercase tracking-widest">
+              Mot de passe
+            </label>
+            <a href="{% url 'account_reset_password' %}"
+               class="text-xs text-amber-600 hover:text-amber-700 transition-colors font-medium">
+              Mot de passe oublié ?
+            </a>
+          </div>
+          <div class="relative">
+            <input :type="show ? 'text' : 'password'"
+                   name="password" placeholder="••••••••" required
+                   class="w-full px-4 py-3 rounded-xl border-2 border-stone-200
+                          text-stone-800 text-sm font-medium placeholder-stone-300
+                          focus:outline-none focus:border-amber-400
+                          focus:ring-4 focus:ring-amber-100 transition-all pr-12" />
+            <button type="button" @click="show = !show"
+                    class="absolute right-3 top-1/2 -translate-y-1/2
+                           text-stone-400 hover:text-amber-600 transition-colors">
+              <span class="material-symbols-outlined text-[20px]"
+                    x-text="show ? 'visibility_off' : 'visibility'"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Se souvenir -->
+        <div class="flex items-center gap-2">
+          <input type="checkbox" name="remember" id="remember"
+                 class="w-4 h-4 rounded border-stone-300 accent-amber-600 cursor-pointer" />
+          <label for="remember" class="text-sm text-stone-500 cursor-pointer">
+            Se souvenir de moi
+          </label>
+        </div>
+
+        <!-- Bouton -->
+        <button type="submit"
+                class="w-full bg-stone-900 hover:bg-amber-700 text-white
+                       py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest
+                       transition-colors duration-300 shadow-lg shadow-stone-900/20">
+          Se connecter
+        </button>
+
+      </form>
+
+      <!-- Liens -->
+      <div class="text-center mt-6 space-y-2">
+        <p class="text-sm text-stone-500">
+          Pas encore de compte ?
+          <a href="{% url 'account_signup' %}"
+             class="text-amber-600 font-bold hover:text-amber-700 transition-colors">
+            S'inscrire
+          </a>
+        </p>
+        <a href="{% url 'home' %}"
+           class="text-xs text-stone-300 hover:text-stone-500 transition-colors block">
+          ← Retour à l'accueil
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Wave décoratif droite -->
+    <div class="hidden lg:block absolute right-0 inset-y-0 w-40 z-10">
+      <svg viewBox="0 0 80 800" preserveAspectRatio="none"
+           class="h-full w-full drop-shadow-xl transition-colors duration-300"
+           style="transform: scaleX(-1);">
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#80;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#101;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path d="M0,0 Q60,200 30,400 Q0,600 60,800 L0,800 L0,0 Z" fill="url(#waveGradient)"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- Droite — Image -->
+  <div class="hidden lg:block relative overflow-hidden ">
+    <img src="{% static 'images/hero/sac3.png' %}"
+         alt="Divine Shop"
+         class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0  bg-stone-700/50"></div>
+
+    <div class="relative z-10 flex flex-col justify-center h-full p-12 text-white ">
+      <span class="text-amber-400 text-xl font-semibold uppercase tracking-widest mb-8 opacity-1">
+        ✦ Divine Shop
+      </span>
+      <h2 class="text-3xl font-serif italic leading-tight mb-4">
+        Bon retour<br />
+        <span class="text-amber-400 font-sans font-bold opacity-0.8">parmi nous !</span>
+      </h2>
+      <p class="text-white text-3xl font-bold font-serif leading-relaxed max-w-lg">
+        Retrouvez vos commandes, vos formations
+        et nos nouvelles collections exclusives.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+{% endblock entrance_content %}
