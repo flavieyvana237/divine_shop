@@ -1,0 +1,105 @@
+{% extends "allauth/layouts/entrance.html" %}
+{% load i18n static %}
+
+{% block title %}Confirmez votre email — Divine Shop{% endblock %}
+
+{% block entrance_content %}
+<div class="min-h-screen grid lg:grid-cols-2">
+
+  <!-- Gauche — Image (même style que signup) -->
+  <div class="hidden lg:block relative overflow-hidden rounded-[2px] border border-stone-200">
+    <img src="{% static 'images/hero/image.png' %}"
+         alt="Divine Shop"
+         class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+    <div class="relative z-10 flex flex-col justify-center pl-60 h-full text-white">
+      <span class="text-amber-400 text-xl font-semibold uppercase tracking-widest mb-8">
+        ✦ Presque là !
+      </span>
+      <h2 class="text-3xl font-serif italic leading-tight mb-4">
+        Plus qu'une<br/>
+        <span class="text-amber-400">étape</span>
+      </h2>
+      <p class="text-white font-serif text-2xl leading-relaxed max-w-lg">
+        Vérifiez votre boite mail et cliquez sur le lien pour activer votre compte.
+      </p>
+    </div>
+  </div>
+
+  <!-- Droite — Message -->
+  <div class="flex items-center justify-center px-8 py-12 bg-white relative">
+
+    <!-- Wave décoratif (même que signup) -->
+    <div class="hidden lg:block absolute left-0 inset-y-0 w-40 z-10 overflow-hidden">
+      <svg viewBox="0 0 80 800" preserveAspectRatio="none"
+           class="h-full w-full drop-shadow-xl" style="transform: scaleX(-1);">
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path d="M80,0 Q20,200 50,400 Q80,600 20,800 L80,800 L80,0 Z" fill="url(#waveGradient)"/>
+      </svg>
+    </div>
+
+    <div class="w-full max-w-sm relative z-20 text-center">
+
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="flex justify-center mb-8">
+        <span class="text-2xl font-serif italic font-bold text-stone-900">
+          Divine<span class="text-amber-600">Shop</span>
+        </span>
+      </a>
+
+      <!-- Icône email -->
+      <div class="flex justify-center mb-6">
+        <div class="w-20 h-20 rounded-full bg-amber-50 border-2 border-amber-200 
+                    flex items-center justify-center">
+          <span class="material-symbols-outlined text-amber-500 text-4xl">mark_email_unread</span>
+        </div>
+      </div>
+
+      <!-- Titre -->
+      <h1 class="text-2xl font-bold text-stone-800 mb-3">
+        Vérifiez votre email
+      </h1>
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <div class="h-px w-8 bg-amber-400"></div>
+        <span class="text-amber-500 text-xs">✦</span>
+        <div class="h-px w-8 bg-amber-400"></div>
+      </div>
+
+      <!-- Message -->
+      <p class="text-stone-500 text-sm leading-relaxed mb-2">
+        Un lien d'activation a été envoyé à
+      </p>
+      <p class="text-amber-600 font-bold text-sm mb-6">
+        {{ confirmation.email_address.email }}
+      </p>
+      <p class="text-stone-400 text-xs leading-relaxed mb-8">
+        Cliquez sur le lien dans l'email pour activer votre compte.
+        Le lien expire dans <span class="font-semibold text-stone-500">3 jours</span>.
+      </p>
+
+      <!-- Renvoyer l'email -->
+      <form method="POST" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ confirmation.email_address.email }}" />
+        <button type="submit" name="action_send"
+                class="w-full border-2 border-stone-200 hover:border-amber-400 
+                       text-stone-600 hover:text-amber-600 py-3 rounded-xl 
+                       text-xs font-bold uppercase tracking-widest transition-all duration-300 mb-4">
+          Renvoyer l'email
+        </button>
+      </form>
+
+      <a href="{% url 'home' %}"
+         class="text-xs text-stone-300 hover:text-stone-500 transition-colors block">
+        ← Retour à l'accueil
+      </a>
+
+    </div>
+  </div>
+</div>
+{% endblock entrance_content %}

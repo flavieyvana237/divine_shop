@@ -291,6 +291,8 @@ ACCOUNT_FORMS = {"signup": "divine_shop.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "divine_shop.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "divine_shop.users.forms.UserSocialSignupForm"}
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "account_login"
+#ACCOUNT_CONFIRM_EMAIL_ON_GET = True  
 
 
 # Your stuff...

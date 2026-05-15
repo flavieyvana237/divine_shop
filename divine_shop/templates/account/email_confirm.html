@@ -1,0 +1,119 @@
+{% extends "allauth/layouts/entrance.html" %}
+{% load i18n static %}
+
+{% block title %}Compte activé — Divine Shop{% endblock %}
+
+{% block entrance_content %}
+<div class="min-h-screen grid lg:grid-cols-2">
+
+  <!-- Gauche — Image -->
+  <div class="hidden lg:block relative overflow-hidden rounded-[2px] border border-stone-200">
+    <img src="{% static 'images/hero/image.png' %}"
+         alt="Divine Shop"
+         class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+    <div class="relative z-10 flex flex-col justify-center pl-60 h-full text-white">
+      <span class="text-amber-400 text-xl font-semibold uppercase tracking-widest mb-8">
+        ✦ Bienvenue !
+      </span>
+      <h2 class="text-3xl font-serif italic leading-tight mb-4">
+        Compte<br/>
+        <span class="text-amber-400">activé</span>
+      </h2>
+      <p class="text-white font-serif text-2xl leading-relaxed max-w-lg">
+        Votre compte est prêt. Connectez-vous et explorez nos collections exclusives.
+      </p>
+    </div>
+  </div>
+
+  <!-- Droite -->
+  <div class="flex items-center justify-center px-8 py-12 bg-white relative">
+
+    <!-- Wave décoratif -->
+    <div class="hidden lg:block absolute left-0 inset-y-0 w-40 z-10 overflow-hidden">
+      <svg viewBox="0 0 80 800" preserveAspectRatio="none"
+           class="h-full w-full drop-shadow-xl" style="transform: scaleX(-1);">
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path d="M80,0 Q20,200 50,400 Q80,600 20,800 L80,800 L80,0 Z" fill="url(#waveGradient)"/>
+      </svg>
+    </div>
+
+    <div class="w-full max-w-sm relative z-20 text-center">
+
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="flex justify-center mb-8">
+        <span class="text-2xl font-serif italic font-bold text-stone-900">
+          Divine<span class="text-amber-600">Shop</span>
+        </span>
+      </a>
+
+      {% if confirmation %}
+        <!-- Succès -->
+        <div class="flex justify-center mb-6">
+          <div class="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 
+                      flex items-center justify-center">
+            <span class="material-symbols-outlined text-emerald-500 text-4xl">verified</span>
+          </div>
+        </div>
+
+        <h1 class="text-2xl font-bold text-stone-800 mb-3">
+          Email confirmé !
+        </h1>
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div class="h-px w-8 bg-amber-400"></div>
+          <span class="text-amber-500 text-xs">✦</span>
+          <div class="h-px w-8 bg-amber-400"></div>
+        </div>
+
+        <p class="text-stone-500 text-sm leading-relaxed mb-8">
+          Votre compte <span class="font-bold text-stone-700">{{ confirmation.email_address.email }}</span> 
+          est maintenant activé. Vous pouvez vous connecter.
+        </p>
+
+        <!-- Bouton login -->
+        <a href="{% url 'account_login' %}"
+           class="block w-full bg-stone-900 hover:bg-amber-700 text-white
+                  py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest
+                  transition-colors duration-300 shadow-lg shadow-stone-900/20 mb-4">
+          Se connecter
+        </a>
+
+      {% else %}
+        <!-- Lien invalide ou expiré -->
+        <div class="flex justify-center mb-6">
+          <div class="w-20 h-20 rounded-full bg-red-50 border-2 border-red-200 
+                      flex items-center justify-center">
+            <span class="material-symbols-outlined text-red-400 text-4xl">error</span>
+          </div>
+        </div>
+
+        <h1 class="text-2xl font-bold text-stone-800 mb-3">
+          Lien invalide
+        </h1>
+        <p class="text-stone-500 text-sm leading-relaxed mb-8">
+          Ce lien d'activation est expiré ou invalide. 
+          Faites une nouvelle demande depuis votre espace email.
+        </p>
+
+        <a href="{% url 'account_signup' %}"
+           class="block w-full bg-stone-900 hover:bg-amber-700 text-white
+                  py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest
+                  transition-colors duration-300 mb-4">
+          Créer un nouveau compte
+        </a>
+      {% endif %}
+
+      <a href="{% url 'home' %}"
+         class="text-xs text-stone-300 hover:text-stone-500 transition-colors block">
+        ← Retour à l'accueil
+      </a>
+
+    </div>
+  </div>
+</div>
+{% endblock entrance_content %}
