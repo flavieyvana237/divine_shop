@@ -5,8 +5,8 @@ from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.views import View
 from django.db import models
-from products.models import Category
-from products.models import Product
+from divine_shop.products.models import Category
+from divine_shop.products.models import Product
 
 
 
