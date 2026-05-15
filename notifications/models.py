@@ -6,16 +6,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from divine_shop.core.models import BaseModel
 
+from divine_shop.global_data.enum import NotificationType
+
 
 class Notification(BaseModel):
     """Notification utilisateur"""
-
-    class Type(models.TextChoices):
-        ORDER = "order", _("Commande")
-        PAYMENT = "payment", _("Paiement")
-        FORMATION = "formation", _("Formation")
-        MESSAGE = "message", _("Message")
-        SYSTEM = "system", _("Système")
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -26,8 +21,8 @@ class Notification(BaseModel):
     type = models.CharField(
         _("Type"),
         max_length=20,
-        choices=Type.choices,
-        default=Type.SYSTEM,
+        choices=NotificationType.choices,
+        default=NotificationType.SYSTEM,
     )
     message = models.TextField(_("Message"))
     is_read = models.BooleanField(_("Lu"), default=False)

@@ -3,19 +3,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from divine_shop.core.models import BaseModel
 
+from divine_shop.global_data.enum import SupportStatus, SupportPriority
+
 
 class SupportTicket(BaseModel):
     """Ticket de support client"""
-
-    class Status(models.TextChoices):
-        OPEN = "open", _("Ouvert")
-        IN_PROGRESS = "in_progress", _("En cours")
-        CLOSED = "closed", _("Fermé")
-
-    class Priority(models.TextChoices):
-        LOW = "low", _("Faible")
-        MEDIUM = "medium", _("Moyen")
-        HIGH = "high", _("Élevé")
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -28,14 +20,14 @@ class SupportTicket(BaseModel):
     status = models.CharField(
         _("Statut"),
         max_length=20,
-        choices=Status.choices,
-        default=Status.OPEN,
+        choices=SupportStatus.choices,
+        default=SupportStatus.OPEN,
     )
     priority = models.CharField(
         _("Priorité"),
         max_length=10,
-        choices=Priority.choices,
-        default=Priority.MEDIUM,
+        choices=SupportPriority.choices,
+        default=SupportPriority.MEDIUM,
     )
 
     class Meta:

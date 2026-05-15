@@ -6,14 +6,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from divine_shop.core.models import BaseModel
 
+from divine_shop.global_data.enum import ChatFileType
+
 
 class Message(BaseModel):
     """Message dans un groupe privé"""
-
-    class FileType(models.TextChoices):
-        IMAGE = "image", _("Image")
-        VIDEO = "video", _("Vidéo")
-        AUDIO = "audio", _("Audio")
 
     group = models.ForeignKey(
         "formations.Group",
@@ -37,7 +34,7 @@ class Message(BaseModel):
     file_type = models.CharField(
         _("Type de fichier"),
         max_length=10,
-        choices=FileType.choices,
+        choices=ChatFileType.choices,
         blank=True,
         default="",
     )

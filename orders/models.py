@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from divine_shop.core.models import BaseModel
+from divine_shop.global_data.enum import OrderStatus, PaymentMethod, PaymentStatus
 
 
 class Cart(BaseModel):
@@ -55,12 +56,6 @@ class CartItem(BaseModel):
 class Order(BaseModel):
     """Commande validée"""
 
-    class Status(models.TextChoices):
-        PENDING = "pending", _("En attente")
-        PAID = "paid", _("Payée")
-        SHIPPED = "shipped", _("Expédiée")
-        CANCELLED = "cancelled", _("Annulée")
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -75,8 +70,8 @@ class Order(BaseModel):
     status = models.CharField(
         _("Statut"),
         max_length=20,
-        choices=Status.choices,
-        default=Status.PENDING,
+        choices=OrderStatus.choices,
+        default=OrderStatus.PENDING,
     )
     delivery_address = models.TextField(_("Adresse de livraison"))
 
@@ -123,15 +118,6 @@ class OrderItem(BaseModel):
 class Payment(BaseModel):
     """Paiement lié à une commande"""
 
-    class Method(models.TextChoices):
-        MTN = "mtn", _("MTN Mobile Money")
-        ORANGE = "orange", _("Orange Money")
-
-    class Status(models.TextChoices):
-        PENDING = "pending", _("En attente")
-        SUCCESS = "success", _("Réussi")
-        FAILED = "failed", _("Échoué")
-
     order = models.OneToOneField(
         Order,
         on_delete=models.CASCADE,
@@ -142,13 +128,13 @@ class Payment(BaseModel):
     method = models.CharField(
         _("Méthode"),
         max_length=10,
-        choices=Method.choices,
+        choices=PaymentMethod.choices,
     )
     status = models.CharField(
         _("Statut"),
         max_length=10,
-        choices=Status.choices,
-        default=Status.PENDING,
+        choices=PaymentStatus.choices,
+        default=PaymentStatus.PENDING,
     )
     transaction_ref = models.CharField(
         _("Référence transaction"),
