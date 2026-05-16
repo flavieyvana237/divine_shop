@@ -1,8 +1,8 @@
 from django.urls import path
 
-from products.views.catalog_views import CategoryProductListView, ProductSearchView
-from products.views.catalog_views import ProductDetailView
-from products.views.catalog_views import ProductListView
+from divine_shop.products.views.catalog_views import CategoryProductListView, ProductSearchView
+from divine_shop.products.views.catalog_views import ProductDetailView
+from divine_shop.products.views.catalog_views import ProductListView
 
 app_name = "catalog"
 
