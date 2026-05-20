@@ -89,12 +89,12 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "divine_shop.users",
     # Your stuff: custom apps go here
-    "products",
-    "orders",
-    "formations",
-    "announcements",
-    "chat",
-    "notifications",
+    "divine_shop.products",
+    "divine_shop.orders",
+    "divine_shop.formations",
+    "divine_shop.announcements",
+    "divine_shop.chat",
+    "divine_shop.notifications",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
