@@ -11,18 +11,18 @@ from divine_shop.products.models import Product
 
 
 class HomeView(TemplateView):
-    template_name = "home/index.html"  # adapte selon ton chemin
+    template_name = "pages/index.html"  # Ta page d'accueil principale
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # On prend les 4 premières catégories qui ont une image
-        context["featured_categories"] = (
+        
+        # On récupère les 4 premières catégories valides en français
+        context["categories_populaires"] = (
             Category.objects.exclude(image="")
             .exclude(image__isnull=True)
             .order_by("name")[:4]
         )
         return context
-
 
 class ProductListView(ListView):
     """
