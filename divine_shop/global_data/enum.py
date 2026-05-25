@@ -42,3 +42,9 @@ class UserRole(models.TextChoices):
     CLIENT = "client", _("Client")
     CREATRICE = "creatrice", _("Créatrice")
     FOURNISSEUR = "fournisseur", _("Fournisseur")
+
+class ProductBadge(models.TextChoices):
+    NEW = "new", _("Nouveau")
+    FEATURED = "featured", _("Vedette")
+    SALE = "sale", _("Promotion")
+    SOLD_OUT = "sold_out", _("Épuisé")

@@ -150,4 +150,76 @@
     animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  
+
+  /* Section — labels et titres réutilisables */
+  .section-label {
+    @apply font-bold text-[10px] uppercase tracking-[0.4em]
+           text-amber-600 mb-3 block;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-serif text-slate-900 leading-tight;
+  }
+
+  .section-link {
+    @apply text-xs font-bold uppercase tracking-widest text-slate-400
+           hover:text-amber-600 transition-colors border-b border-slate-100
+           hover:border-amber-600 pb-1 flex-shrink-0;
+  }
+
+  /* Carte produit */
+  .product-card {
+    @apply flex flex-col cursor-pointer;
+  }
+
+  /* Badges */
+  .product-badge-sale {
+    @apply absolute top-3 left-3 bg-red-500 text-white
+           text-[10px] font-bold uppercase tracking-wider
+           px-2.5 py-1 rounded-full z-10;
+  }
+
+  .product-badge-new {
+    @apply absolute top-3 left-3 bg-emerald-500 text-white
+           text-[10px] font-bold uppercase tracking-wider
+           px-2.5 py-1 rounded-full z-10;
+  }
+
+  .product-badge-featured {
+    @apply absolute top-3 left-3 bg-amber-500 text-white
+           text-[10px] font-bold uppercase tracking-wider
+           px-2.5 py-1 rounded-full z-10;
+  }
+
+  /* Bouton panier rapide */
+  .product-quick-add {
+    @apply absolute bottom-0 left-0 right-0
+           
+           translate-y-full group-hover:translate-y-0
+           transition-transform duration-300 ease-out
+           flex items-center justify-center py-3;
+  }
+
+  .product-quick-add-btn {
+    @apply flex items-center gap-2 text-white text-xs
+           font-semibold uppercase tracking-widest
+           hover:text-blue-800 transition-colors;
+  }
+
+ /* Countdown */
+  .countdown-block {
+    @apply flex flex-col items-center bg-stone-800 border border-stone-700
+           rounded-xl px-4 py-3 min-w-[70px];
+  }
+
+  .countdown-number {
+    @apply text-2xl font-black text-white tabular-nums;
+  }
+
+  .countdown-label {
+    @apply text-[10px] font-semibold uppercase tracking-wider
+           text-stone-400 mt-1;
+  }
+
 }

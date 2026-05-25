@@ -1,4 +1,5 @@
 {% extends "pages/base.html" %}
+{% load static %}
 
 {% block title %}
   Divine Shop | Accueil
@@ -12,7 +13,12 @@
     {% include "pages/includes/about.html" %}
     {% include "pages/includes/featured_collection.html" %}
     {% include "pages/includes/best_sellers.html" %}
+    {% include "pages/includes/promotions.html" %}
+    {% include "pages/includes/new_product.html"%}
     {% include "pages/includes/testimonials.html" %}
     {% include "pages/includes/newsletter.html" %}
   </main>
 {% endblock body %}
+{% block extra_js %}
+  <script src="{% static 'js/countdown.js' %}"></script>
+{% endblock extra_js %}

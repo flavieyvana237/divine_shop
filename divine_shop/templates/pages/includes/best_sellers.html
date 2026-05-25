@@ -1,26 +1,149 @@
-<section class="py-16 px-8 bg-white">
+{% load static %}
+
+<section id="produits_vedettes" class="py-24 px-8 bg-stone-50">
   <div class="max-w-screen-2xl mx-auto">
-    <div class="text-center mb-12">
-      <span class="font-medium text-[10px] uppercase tracking-[0.4em] text-amber-600 mb-2 block">The Essentials</span>
-      <h2 class="text-3xl md:text-4xl font-serif italic text-slate-900">Les articles les plus demandes</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-      <div class="group cursor-pointer">
-        <div class="w-full h-[350px] md:h-[400px] bg-slate-50 mb-4 overflow-hidden relative rounded-sm">
-          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_HenrhrvtyJRDCSeprfKEY_Ot2JWf1hzLUSt_EdJH8e-QL5t7JFUrl74ILlmw64B8HxhMvjjk7EUjl-OcTa1OM60Eg083nhLEl4Sn6JySxhzSJpa6eGiuPrDYC2yPilZBXHkm-wQmlCSczMJt-f7x_YsUlnZWuUE33K6PsIE5s9nw8In_5uYIO0EY6OE9j2rlFd4az2zb500bZs-Yx8_pjqI-DkRF5FwBUQgRz89jft8emPKIdUR06r-c2B6gLJhfyZoavx-s46i4"
-               alt="Produit" />
-          <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] py-3 bg-slate-900/90 text-white font-bold text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 backdrop-blur-sm">
-            Quick Add
-          </button>
-        </div>
-        <div class="text-center">
-          <h3 class="text-md font-serif italic text-slate-900 mb-1 group-hover:text-amber-600 transition-colors">
-            Oceanic Luster
-          </h3>
-          <p class="text-amber-600 font-bold text-xs tracking-widest">$285.00</p>
-        </div>
+
+    {# --- En-tête --- #}
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+      <div>
+        <span class="section-label">
+          Top Essentiels
+        </span>
+        <h2 class="section-title">
+          Nos Produits <span class="italic text-amber-600">Vedettes</span>
+        </h2>
       </div>
+      <a href="{% url 'catalog:product_list' %}" class="section-link">
+        Voir tous les produits
+      </a>
     </div>
+
+    {# --- Grille produits --- #}
+    {% if produits_vedettes %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      {% for product in produits_vedettes %}
+      <a href="{% url 'catalog:product_detail' product.slug %}" class="product-card group">
+
+        {# --- Image + Badge --- #}
+        <div class="relative aspect-square overflow-hidden bg-stone-100 rounded-2xl mb-4">
+
+          {# Image #}
+          {% with product.get_main_image as img %}
+            {% if img %}
+              <img src="{{ img.image.url }}"
+                   alt="{{ product.name }}"
+                   class="w-full h-full object-cover transition-transform
+                          duration-700 group-hover:scale-105" />
+            {% else %}
+              <div class="w-full h-full flex items-center justify-center">
+                <span class="text-stone-300 text-sm font-serif italic">
+                  Aucune image
+                </span>
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          {# Badge #}
+          {% if product.is_on_sale %}
+            <span class="product-badge-sale">
+              -{{ product.get_discount_percentage }}%
+            </span>
+          {% elif product.is_new %}
+            <span class="product-badge-new">
+              Nouveau
+            </span>
+          {% elif product.is_featured %}
+            <span class="product-badge-featured">
+              Vedette
+            </span>
+          {% endif %}
+
+          {# --- ANCIEN PANIER DEVENU : Bouton Voir Détail discret au hover --- #}
+          <div class="product-quick-add">
+            <div class="product-quick-add-btn bg-white/90 backdrop-blur-sm text-slate-900 border border-slate-200/50 py-2.5 px-5 rounded-xl shadow-sm text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+              Voir le produit
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+              fill="none" stroke="currentColor" stroke-width="2" 
+              stroke-linecap="round" stroke-linejoin="round"
+               class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/>
+               <path d="M2 12H22"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        {# --- Infos produit --- #}
+        <div class="flex flex-col gap-1 px-1 mt-1">
+
+          <p class="text-xs text-amber-600 font-semibold uppercase tracking-wider">
+            {{ product.category.name }}
+          </p>
+
+          <h3 class="text-stone-800 font-medium text-sm leading-snug
+                     group-hover:text-amber-700 transition-colors duration-200">
+            {{ product.name }}
+          </h3>
+
+          {# Prix + Bouton sur la même ligne #}
+          <div class="flex items-center justify-between mt-2">
+
+            {# Prix #}
+            <div class="flex flex-col">
+              {% if product.is_on_sale %}
+                <span class="text-stone-800 font-bold text-sm">
+                  {{ product.get_promo_price }} FCFA
+                </span>
+                <span class="text-stone-400 text-xs line-through">
+                  {{ product.price }} FCFA
+                </span>
+              {% else %}
+                <span class="text-stone-800 font-bold text-sm">
+                  {{ product.price }} FCFA
+                </span>
+              {% endif %}
+            </div>
+
+            {# --- ANCIEN VOIR DÉTAIL DEVENU : Bouton Ajouter au panier rapide --- #}
+            <button onclick="event.preventDefault(); alert('Panier bientôt disponible !')"
+                    class="inline-flex items-center gap-1.5 text-[10px] font-bold
+                           uppercase tracking-wider text-amber-600 border border-amber-600/20 
+                           bg-amber-50/40 hover:bg-amber-600 hover:text-white
+                           transition-all duration-300 px-3 py-1.5 rounded-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" 
+                   stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+                <circle cx="8" cy="21" r="1"/>
+                <circle cx="19" cy="21" r="1"/>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+              </svg>
+              Ajouter
+            </button>
+
+          </div>
+
+          {# Stock #}
+          {% if not product.is_in_stock %}
+            <span class="text-xs text-red-400 font-medium mt-1">
+              Rupture de stock
+            </span>
+          {% endif %}
+
+        </div>
+
+      </a>
+      {% endfor %}
+
+    </div>
+
+    {% else %}
+    <div class="text-center py-20">
+      <p class="text-stone-400 font-serif italic text-xl">
+        Aucun produit vedette pour le moment.
+      </p>
+    </div>
+    {% endif %}
+
   </div>
 </section>

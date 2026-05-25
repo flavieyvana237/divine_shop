@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category
+from .models import Category, Promotion
 from .models import Product
 from .models import ProductImage
 
@@ -41,3 +41,14 @@ class ProductImageAdmin(admin.ModelAdmin):
     list_display = ["product", "is_main", "order"]
     list_filter = ["is_main"]
     raw_id_fields = ["product"]
+
+
+@admin.register(Promotion)
+class PromotionAdmin(admin.ModelAdmin):
+    list_display = ["name", "discount_percentage", "start_date", "end_date", "is_active"]
+    list_filter = ["is_active", "start_date", "end_date"]
+    search_fields = ["name", "description"]
+    readonly_fields = ["created_at", "updated_at"]
+    
+    # filter_horizontal rend la sélection des produits beaucoup plus belle (double liste avec flèches)
+    filter_horizontal = ["products"]
