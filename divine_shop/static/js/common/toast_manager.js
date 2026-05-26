@@ -14,14 +14,22 @@ if (typeof gettext === 'undefined') {
  */
 class ToastManager {
     constructor() {
-        // Initialize toast container
-        this.toastContainer = document.createElement('div');
-        this.toastContainer.id = 'toast-container';
-        this.toastContainer.className = 'fixed z-[10000009] flex flex-col gap-4';
-        document.body.appendChild(this.toastContainer);
-
+        this.toastContainer = null;
         // Inject CSS styles
         this.injectStyles();
+    }
+
+    /**
+     * Initializes the toast container if it doesn't exist.
+     * @private
+     */
+    ensureContainer() {
+        if (!this.toastContainer) {
+            this.toastContainer = document.createElement('div');
+            this.toastContainer.id = 'toast-container';
+            this.toastContainer.className = 'fixed z-[10000009] flex flex-col gap-4';
+            document.body.appendChild(this.toastContainer);
+        }
     }
 
     /**
@@ -169,6 +177,7 @@ class ToastManager {
      * @param {number} [config.duration=4000] - The duration of the progress bar and auto-close in milliseconds.
      */
     showToast({ message, type = 'info', position = 'top-right', duration = 4000 }) {
+        this.ensureContainer();
         const toastStyles = {
             success: {
                 id: 'toast-success',
