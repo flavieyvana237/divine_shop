@@ -27,7 +27,7 @@ class ToastManager {
         if (!this.toastContainer) {
             this.toastContainer = document.createElement('div');
             this.toastContainer.id = 'toast-container';
-            this.toastContainer.className = 'fixed z-[10000009] flex flex-col gap-4';
+            this.toastContainer.className = 'fixed z-[100] flex flex-col gap-4';
             document.body.appendChild(this.toastContainer);
         }
     }

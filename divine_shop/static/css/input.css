@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../../tailwind.config.js";
+
+/* Tailwind 4 - Force scanning of toast classes if they are not picked up from JS */
+/* .toast-classes { @apply fixed z-[100] flex flex-col gap-4 bg-white border-l-4 border-emerald-500 rounded-xl shadow-2xl p-4 transition-all duration-300; } */
 
 @layer components {
   /* --- Boutons --- */
@@ -44,7 +46,7 @@
   }
 
   /* Version responsive si tu veux qu'elle change sur mobile */
-  @screen md {
+  @variant md {
     .product-image-container {
       height: 420px;
     }

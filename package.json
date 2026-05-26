@@ -1,16 +1,31 @@
 {
   "name": "divine_shop",
-  "version": "0.1.0",
+  "version": "3.8.0",
   "private": true,
+  "description": "",
   "scripts": {
-    "build": "npx tailwindcss -i ./divine_shop/static/css/input.css -o ./divine_shop/static/css/output.css --minify",
-    "watch": "npx tailwindcss -i ./divine_shop/static/css/input.css -o ./divine_shop/static/css/output.css --watch",
-    "dev": "npm run watch"
+    "start": "npm run dev",
+    "build": "npm run build:clean && npm run build:tailwind",
+    "build:clean": "rimraf ./divine_shop/static/css/output.css",
+    "build:tailwind": "npx tailwindcss -i ./divine_shop/static/css/input.css -o ./divine_shop/static/css/output.css --minify",
+    "dev": "npx tailwindcss -i ./divine_shop/static/css/input.css -o ./divine_shop/static/css/output.css --watch --minify",
+    "tailwindcss": "node ./node_modules/tailwindcss/lib/cli.js"
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.0",
+    "@tailwindcss/cli": "^4.1.4",
+    "flowbite-typography": "^1.0.5",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^4.1.4",
     "postcss": "^8.4.0",
-    "autoprefixer": "^10.4.0",
-    "flowbite": "^2.3.0"
+    "autoprefixer": "^10.4.0"
+  },
+  "dependencies": {
+    "@parcel/watcher": "^2.5.1",
+    "flowbite": "^3.1.2",
+    "@ckeditor/ckeditor5-build-classic": "^44.2.1"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
+    "lightningcss-linux-x64-gnu": "^1.29.1"
   }
 }
