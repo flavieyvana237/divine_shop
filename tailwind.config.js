@@ -3,9 +3,12 @@ module.exports = {
     "./divine_shop/templates/**/*.html",
     "./divine_shop/**/*.html",
     "./divine_shop/**/*.py",
+    "./node_modules/flowbite/**/*.js",
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 };

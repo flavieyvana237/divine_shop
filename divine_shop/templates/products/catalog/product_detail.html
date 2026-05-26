@@ -75,7 +75,7 @@
         </p>
         <!-- Bouton panier -->
         {% if product.is_in_stock %}
-          <button onclick="alert('Fonctionnalité panier bientôt disponible !')"
+          <button onclick="toastManager.buildToast().setMessage('Fonctionnalité panier bientôt disponible !').setType('info').show()"
                   class="w-full bg-stone-900 hover:bg-amber-700 text-white py-4 rounded-2xl text-sm font-medium uppercase tracking-widest transition-colors duration-300 mt-2">
             Ajouter au panier
           </button>

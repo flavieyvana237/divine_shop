@@ -35,7 +35,7 @@
           <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
         </div>
         <div class="mt-10">
-          <button onclick="alert('Fonctionnalité panier bientôt disponible !')"
+          <button onclick="toastManager.buildToast().setMessage('Fonctionnalité panier bientôt disponible !').setType('info').show()"
                   class="w-full bg-black text-white py-5 rounded-2xl text-lg font-medium hover:bg-gray-800 transition">
             Ajouter au panier
           </button>
