@@ -1,0 +1,167 @@
+{% load static %}
+
+{% if promotion_active %}
+<section id="promotions" class="py-24 px-8 bg-stone-900 overflow-hidden relative rounded-3xl max-w-screen-3xl mx-auto my-12 animate-fade-in-up">
+
+  {# --- Décorations de fond --- #}
+  <div class="absolute top-0 left-0 w-96 h-96 bg-amber-500/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-screen-2xl mx-auto relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+      {# --- Gauche — Texte et Countdown --- #}
+      <div class="flex flex-col gap-8">
+
+        {# Badge promo #}
+        <div class="flex items-center gap-3 w-fit">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-500">
+            Offre Spéciale
+          </span>
+        </div>
+
+        {# Titre #}
+        <div>
+          <h2 class="text-3xl md:text-5xl font-serif italic text-white leading-tight mb-4">
+            {{ promotion_active.name }}
+          </h2>
+          {% if promotion_active.description %}
+          <p class="text-stone-400 text-sm md:text-base leading-relaxed max-w-md">
+            {{ promotion_active.description }}
+          </p>
+          {% endif %}
+        </div>
+
+        {# Badge réduction #}
+        <div class="flex items-center gap-4">
+          <span class="text-6xl font-black text-amber-500 tracking-tighter">
+            -{{ promotion_active.discount_percentage }}%
+          </span>
+          <div class="flex flex-col text-[11px] uppercase tracking-widest text-stone-300 font-bold">
+            <span>Sur tous</span>
+            <span>les produits</span>
+            <span class="text-amber-400">sélectionnés</span>
+          </div>
+        </div>
+
+        {# --- Countdown en JavaScript Natif (Données Réelles) --- #}
+        <div id="promo-countdown" 
+             data-deadline="{{ promotion_active.end_date|date:'Y-m-d H:i:s' }}" 
+             class="flex items-center gap-3 text-white">
+
+          {# Jours #}
+          <div class="flex flex-col items-center">
+            <div class="bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-w-[65px] text-center">
+              <span id="lbl-days" class="font-serif text-2xl md:text-3xl font-bold text-white">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400 mt-1.5">Jours</span>
+          </div>
+
+          <span class="text-amber-500 text-xl font-bold mb-5">:</span>
+
+          {# Heures #}
+          <div class="flex flex-col items-center">
+            <div class="bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-w-[65px] text-center">
+              <span id="lbl-hours" class="font-serif text-2xl md:text-3xl font-bold text-white">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400 mt-1.5">Heures</span>
+          </div>
+
+          <span class="text-amber-500 text-xl font-bold mb-5">:</span>
+
+          {# Minutes #}
+          <div class="flex flex-col items-center">
+            <div class="bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-w-[65px] text-center">
+              <span id="lbl-minutes" class="font-serif text-2xl md:text-3xl font-bold text-white">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-wider text-stone-400 mt-1.5">Min</span>
+          </div>
+
+          <span class="text-amber-500 text-xl font-bold mb-5">:</span>
+
+          {# Secondes #}
+          <div class="flex flex-col items-center">
+            <div class="bg-stone-950 border border-amber-500/30 px-4 py-3 rounded-xl min-w-[65px] text-center shadow-lg shadow-amber-500/5">
+              <span id="lbl-seconds" class="font-serif text-2xl md:text-3xl font-bold text-amber-500">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-wider text-stone-300 mt-1.5">Sec</span>
+          </div>
+
+        </div>
+
+        {# Bouton CTA — Redirige vers la page dédiée à cette promotion #}
+        <a href="{% url 'catalog:product_list' %}?promotion={{ promotion_active.id }}"
+           class="inline-flex items-center gap-3 bg-amber-500 hover:bg-amber-600
+                  text-stone-950 font-bold text-xs uppercase tracking-widest
+                  px-8 py-4 rounded-xl transition-all duration-300
+                  shadow-lg shadow-amber-500/10 w-fit group">
+          Profiter de l'offre
+          <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </a>
+
+      </div>
+
+      {# --- Droite — Visuels Lumineux Sublimés --- #}
+      <div class="relative w-full">
+
+        {% if promotion_active.banner_image %}
+          {# Bannière Unique #}
+          <div class="relative rounded-2xl overflow-hidden aspect-[4/5] max-w-md mx-auto shadow-2xl border border-white/5">
+            <img src="{{ promotion_active.banner_image.url }}"
+                 alt="{{ promotion_active.name }}"
+                 class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950/40 to-transparent"></div>
+          </div>
+        {% else %}
+          {# Grille Lumineuse : Max 4 articles (Grâce au slice) #}
+          <div class="grid grid-cols-2 gap-4 max-w-xl mx-auto">
+            {% for product in promotion_active.products.all|slice:":4" %}
+            <a href="{% url 'catalog:product_detail' product.slug %}"
+               class="group relative rounded-2xl overflow-hidden aspect-square
+                      bg-stone-100 border border-white/10
+                      hover:border-amber-500/40 transition-all duration-500 shadow-xl block">
+
+              {% with product.get_main_image as img %}
+                {% if img %}
+                  <img src="{{ img.image.url }}"
+                       alt="{{ product.name }}"
+                       class="w-full h-full object-cover opacity-100
+                              group-hover:scale-105 transition-all duration-700" />
+                {% endif %}
+              {% endwith %}
+
+              {# Voile dégradé léger uniquement sur le bas pour garder le texte lisible sans assombrir l'article #}
+              <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/10 to-transparent opacity-80"></div>
+
+              {# Infos Produit #}
+              <div class="absolute bottom-4 left-4 right-4 text-left">
+                <p class="text-white text-xs font-semibold truncate mb-0.5">
+                  {{ product.name }}
+                </p>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-amber-400 text-xs font-bold">
+                    {{ product.get_promo_price }} FCFA
+                  </span>
+                  <span class="text-stone-50 text-[12px] line-through">
+                    {{ product.price }} FCFA
+                  </span>
+                </div>
+              </div>
+
+            </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Décorations circulaires de luxe #}
+        <div class="absolute -top-8 -right-8 w-32 h-32 border border-amber-500/10 rounded-full pointer-events-none"></div>
+        <div class="absolute -bottom-8 -left-8 w-20 h-20 border border-white/5 rounded-full pointer-events-none"></div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+{% endif %}

@@ -5,25 +5,64 @@ from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.views import View
 from django.db import models
-from divine_shop.products.models import Category
-from divine_shop.products.models import Product
+from divine_shop.products.models import Category, Promotion,Product
+
+from django.utils import timezone
+
+
 
 
 
 class HomeView(TemplateView):
-    template_name = "home/index.html"  # adapte selon ton chemin
+    template_name = "pages/index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # On prend les 4 premières catégories qui ont une image
-        context["featured_categories"] = (
+        now = timezone.now()
+
+        # Catégories populaires — avec image uniquement
+        context["categories_populaires"] = (
             Category.objects.exclude(image="")
             .exclude(image__isnull=True)
             .order_by("name")[:4]
         )
+
+        # Produits vedettes — is_featured=True, disponibles, avec images
+        context["produits_vedettes"] = (
+            Product.objects.filter(
+                is_featured=True,
+                is_available=True,
+                stock__gt=0,
+            )
+            .select_related("category")
+            .prefetch_related("images", "promotions")
+            .order_by("-created_at")[:8]
+        )
+
+        # Nouveautés — produits récents
+        context["nouveautes"] = (
+            Product.objects.filter(
+                is_new=True,
+                is_available=True,
+                stock__gt=0,
+            )
+            .select_related("category")
+            .prefetch_related("images", "promotions")
+            .order_by("-created_at")[:4]
+        )
+
+        # Promotion active — une seule à la fois sur la bannière
+        context["promotion_active"] = (
+            Promotion.objects.filter(
+                is_active=True,
+                start_date__lte=now,
+                end_date__gte=now,
+            )
+            .prefetch_related("products__images")
+            .first()
+        )
+
         return context
-
-
 class ProductListView(ListView):
     """
     Vue publique — liste tous les produits disponibles
