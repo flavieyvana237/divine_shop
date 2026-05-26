@@ -5,11 +5,8 @@ from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
-from products.views.catalog_views import HomeView
-
-
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
+    path("", include("products.urls")),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -20,7 +17,6 @@ urlpatterns = [
     # User management
     path("users/", include("divine_shop.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    path("products/", include("products.urls")),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
