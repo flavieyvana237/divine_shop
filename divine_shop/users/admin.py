@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .forms import UserAdminChangeForm
 from .forms import UserAdminCreationForm
-from .models import User
+from .models import Testimonial, User
 
 if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
     admin.autodiscover()
@@ -47,3 +47,20 @@ class UserAdmin(auth_admin.UserAdmin):
     list_filter = ["role", "is_superuser", "is_active"]
 
     search_fields = ["username", "name", "email"]
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    # Les colonnes qui vont s'afficher dans la liste des témoignages
+    list_display = ["client_name", "rating", "client_title", "is_approved", "created_at"]
+    
+    # Les filtres sur le côté droit pour trier rapidement
+    list_filter = ["is_approved", "rating", "created_at"]
+    
+    # La barre de recherche pour retrouver un avis par le nom du client ou son texte
+    search_fields = ["client_name", "comment", "client_title"]
+    
+    # Permet de cocher/décocher "Approuvé" directement depuis la liste sans ouvrir le témoignage
+    list_editable = ["is_approved"]
+    
+    # Rend les dates de création visibles mais non modifiables
+    readonly_fields = ["created_at", "updated_at"]

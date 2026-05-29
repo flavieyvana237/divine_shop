@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views import View
 from django.db import models
 from divine_shop.products.models import Category, Promotion,Product
-
+from divine_shop.users.models import Testimonial 
 from django.utils import timezone
 
 
@@ -62,7 +62,11 @@ class HomeView(TemplateView):
             .first()
         )
 
+    
+        context["testimonials"] = Testimonial.objects.filter(is_approved=True)
+
         return context
+    
 class ProductListView(ListView):
     """
     Vue publique — liste tous les produits disponibles

@@ -4,6 +4,9 @@ from django.db.models import CharField
 from django.db.models import TextChoices
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from divine_shop.core.models import BaseModel
+import uuid
+from django.conf import settings
 
 from divine_shop.global_data.enum import UserRole
 
@@ -48,3 +51,29 @@ class User(AbstractUser):
 
     def is_client(self) -> bool:
         return self.role == UserRole.CLIENT
+
+class Testimonial(BaseModel):
+    """Témoignages et avis des clients de Divine Shop"""
+    
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="testimonials",
+        verbose_name=_("Client (Optionnel)")
+    )
+    client_name = models.CharField(_("Nom du client"), max_length=100)
+    client_title = models.CharField(_("Titre / Rôle"), max_length=100, blank=True, default="Cliente vérifiée")
+    avatar = models.ImageField(_("Avatar"), upload_to="avatars/", blank=True, null=True)
+    comment = models.TextField(_("Commentaire / Avis"))
+    rating = models.PositiveIntegerField(_("Note (Étoiles)"), default=5)
+    is_approved = models.BooleanField(_("Approuvé pour l'affichage"), default=False)
+
+    class Meta:
+        verbose_name = _("Témoignage")
+        verbose_name_plural = _("Témoignages")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Avis de {self.client_name} - {self.rating}★"
