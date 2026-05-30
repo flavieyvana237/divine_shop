@@ -1,40 +1,77 @@
-<section class="py-24 px-8 bg-white">
-  <div class="max-w-screen-2xl mx-auto">
-    <div class="text-center mb-20">
-      <span class="font-medium text-[10px] uppercase tracking-[0.4em] text-amber-600 mb-4 block">Kind Words</span>
-      <h2 class="text-section-title">Voices of Elegance</h2>
+{% load static %}
+
+{% if testimonials %}
+<section id="temoignages" class="py-24 px-8 bg-stone-50 overflow-hidden relative">
+  <div class="max-w-screen-2xl mx-auto relative z-10">
+    
+    {# --- En-tête --- #}
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-sans font-bold text-slate-900 tracking-tight">
+        Meet our <span class="text-amber-600 font-serif italic">amazing community</span>
+      </h2>
+      <p class="text-stone-500 text-sm md:text-base max-w-xl mx-auto mt-4 leading-relaxed">
+        Real people, real stories, real impact. Get to know some of the incredible clients who make Divine Shop special.
+      </p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-      <div class="flex flex-col items-center text-center group">
-        <div class="flex items-center text-amber-500 text-sm mb-6 tracking-widest">★★★★★</div>
-        <blockquote class="text-lg font-serif italic text-slate-700 leading-relaxed mb-6 px-4">
-          "The craftsmanship is truly exceptional. My Oceanic Luster necklace is
-          a statement piece that always draws compliments."
-        </blockquote>
-        <cite class="not-italic font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400">
-          — Amara K.
-        </cite>
-      </div>
-      <div class="flex flex-col items-center text-center group md:border-x border-slate-100 px-4">
-        <div class="flex items-center text-amber-500 text-sm mb-6 tracking-widest">★★★★★</div>
-        <blockquote class="text-lg font-serif italic text-slate-700 leading-relaxed mb-6 px-4">
-          "I love how each piece feels personal. You can tell they are made with
-          such care and heritage. A beautiful bridge of cultures."
-        </blockquote>
-        <cite class="not-italic font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400">
-          — Elena M.
-        </cite>
-      </div>
-      <div class="flex flex-col items-center text-center group">
-        <div class="flex items-center text-amber-500 text-sm mb-6 tracking-widest">★★★★★</div>
-        <blockquote class="text-lg font-serif italic text-slate-700 leading-relaxed mb-6 px-4">
-          "Fast shipping and exquisite packaging. Opening my Savannah Sun
-          bracelet felt like receiving a precious gift."
-        </blockquote>
-        <cite class="not-italic font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400">
-          — Sarah J.
-        </cite>
+
+    {# --- Fenêtre d'affichage (Viewport) --- #}
+    <div class="relative w-full overflow-hidden px-2 py-4">
+      
+      {# Le conteneur Flex qui va coulisser en douceur #}
+      <div id="testimonial-track" 
+           class="flex gap-8 transition-transform duration-[1000ms] ease-in-out">
+        
+        {% for testimonial in testimonials %}
+        {# Chaque carte prend exactement 1/3 de la largeur sur grand écran #}
+        <div class="testimonial-card w-full sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] shrink-0 bg-white border border-stone-200/60 rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center text-center justify-between min-h-[360px]">
+          
+          {# Partie Haute : Avatar + Infos #}
+          <div class="flex flex-col items-center gap-4 w-full">
+            {% if testimonial.avatar %}
+              <img src="{{ testimonial.avatar.url }}" 
+                   alt="{{ testimonial.client_name }}" 
+                   class="w-24 h-24 rounded-full object-cover border-4 border-amber-500/10 shadow-inner" />
+            {% else %}
+              <div class="w-24 h-24 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-xl border-4 border-amber-500/10">
+                {{ testimonial.client_name|slice:":2"|upper }}
+              </div>
+            {% endif %}
+            
+            <div>
+              <h3 class="text-slate-900 font-bold text-base uppercase tracking-wider">
+                {{ testimonial.client_name }}
+              </h3>
+              <p class="text-amber-600 font-medium text-xs mt-0.5">
+                {{ testimonial.client_title|default:"Cliente vérifiée" }}
+              </p>
+            </div>
+          </div>
+
+          {# Partie Centrale : Commentaire #}
+          <p class="text-stone-600 text-sm leading-relaxed my-6 italic font-sans max-w-xs">
+            " {{ testimonial.comment }} "
+          </p>
+
+          {# Partie Basse : Étoiles + Note #}
+          <div class="flex items-center justify-center gap-4 pt-4 border-t border-stone-100 w-full">
+            <div class="flex items-center gap-1 text-amber-400">
+              {% for i in "12345" %}
+                {% if forloop.counter <= testimonial.rating %}
+                  <span class="material-symbols-outlined text-[18px] fill-current">star</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <span class="text-slate-800 font-bold text-sm">
+              {{ testimonial.rating }}/5
+            </span>
+          </div>
+
+        </div>
+        {% endfor %}
+        
       </div>
     </div>
+
   </div>
 </section>
+{% endif %}
