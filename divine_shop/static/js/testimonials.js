@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Défilement automatique toutes les 60 000 millisecondes (1 minute)
-    const testimonialInterval = setInterval(scrollTestimonials, 60000);
+    const testimonialInterval = setInterval(scrollTestimonials, 20000);
 
     // Réajustement si l'utilisateur change la taille de son écran
     window.addEventListener("resize", function () {
