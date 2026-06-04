@@ -1,0 +1,95 @@
+{% load static %}
+
+<section id="newsletter_section" class="divine-section-container divine-section-container--light">
+  
+  {# Glow animé #}
+  <div class="divine-glow divine-glow--amber"></div>
+
+  <div class="relative z-10 w-full max-w-[1920px] mx-auto">
+    <div class="divine-grid-2cols">
+      
+      {# --- CARROUSEL IMAGE --- #}
+      <div class="divine-col-left">
+        <div id="newsletter-carousel" class="divine-card w-full h-400px md:h-[480px]" data-carousel="slide" data-carousel-interval="7000">
+          
+          <div class="relative h-full overflow-hidden rounded-3xl">
+            
+            {# Slide 1 #}
+            <div class="hidden max-h-max absolute inset-0" data-carousel-item="active">
+              <img src="{% static 'images/newsletter/new1.png' %}" alt="Divine Shop Privilèges" class="absolute block w-full h-full object-cover" />
+              <div class="divine-gradient-overlay"></div>
+              <div class="divine-slide-content">
+                <span class="divine-prestige-badge divine-prestige-badge--amber">Le Cercle Privé</span>
+                <h3 class="divine-slide-title">Souscrivez et profitez d'avantages exclusifs tout au long de l'année.</h3>
+              </div>
+            </div>
+
+            {# Slide 2 #}
+            <div class="hidden h-full absolute inset-0" data-carousel-item>
+              <img src="{% static 'images/newsletter/new2.png' %}" alt="Offre Bienvenue" class="absolute block w-full h-full object-cover" />
+              <div class="divine-gradient-overlay"></div>
+              <div class="divine-slide-content">
+                <span class="divine-prestige-badge divine-prestige-badge--amber">Offre de Bienvenue</span>
+                <h3 class="divine-slide-title">Inscrivez-vous maintenant et gagnez <span class="divine-slide-highlight">10% de réduction</span> sur votre première commande.</h3>
+              </div>
+            </div>
+
+            {# Slide 3 #}
+            <div class="hidden h-full absolute inset-0" data-carousel-item>
+              <img src="{% static 'images/newsletter/new3.png' %}" alt="Nouvelle Collection" class="absolute block w-full h-full object-cover" />
+              <div class="divine-gradient-overlay"></div>
+              <div class="divine-slide-content">
+                <span class="divine-prestige-badge divine-prestige-badge--amber">Avant-Première</span>
+                <h3 class="divine-slide-title">Soyez la toute première informée du lancement de nos nouvelles collections de sacs uniques.</h3>
+              </div>
+            </div>
+
+          </div>
+
+          {# Indicateurs du carrousel #}
+          <div class="divine-carousel-indicators">
+            <button type="button" class="divine-carousel-indicator divine-carousel-indicator--active" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            <button type="button" class="divine-carousel-indicator divine-carousel-indicator--inactive" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            <button type="button" class="divine-carousel-indicator divine-carousel-indicator--inactive" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+          </div>
+        </div>
+      </div>
+
+      {# --- FORMULAIRE --- #}
+      <div class="divine-col-right divine-animate-fade-up">
+        <div>
+          <span class="divine-prestige-badge divine-prestige-badge--stone">Restons connectés</span>
+          <h2 class="divine-section-title text-stone-950">Rejoignez l'univers Divine Shop</h2>
+          <p class="divine-section-subtitle text-stone-600">
+            Entrez votre adresse e-mail pour recevoir votre code secret de bienvenue et ne manquer aucune de nos créations artisanales.
+          </p>
+        </div>
+
+        {# Formulaire #}
+        <div id="newsletter-form-container" class="mt-2">
+          <form id="ajax-newsletter-form" class="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+            {% csrf_token %}
+            <div class="relative flex-grow">
+              <span class="divine-input-icon material-symbols-outlined">mail</span>
+              <input type="email" id="newsletter-email" required
+                     placeholder="Votre adresse e-mail la plus chic..." 
+                     class="divine-input" />
+            </div>
+            <button type="submit" class="divine-btn-primary divine-btn-primary--amber group">
+              S'abonner
+              <span class="divine-btn-primary-icon material-symbols-outlined">arrow_forward</span>
+            </button>
+          </form>
+          
+          <div id="newsletter-message" class="mt-4 text-xs md:text-sm font-medium hidden"></div>
+        </div>
+
+        {# RGPD #}
+        <p class="text-[11px] text-stone-400 max-w-sm leading-normal divine-animate-fade-up" style="animation-delay: 0.2s;">
+          En vous inscrivant, vous acceptez notre politique de confidentialité. Désinscription possible en un clic à tout moment.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>

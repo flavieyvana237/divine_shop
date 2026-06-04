@@ -77,3 +77,18 @@ class Testimonial(BaseModel):
 
     def __str__(self):
         return f"Avis de {self.client_name} - {self.rating}★"
+    
+
+class NewsletterUser(BaseModel):
+    
+    email = models.EmailField(_("Adresse email"), unique=True)
+    is_active = models.BooleanField(_("Actif"), default=True)
+    has_received_welcome_coupon = models.BooleanField(_("A reçu le coupon de bienvenue"), default=False)
+
+    class Meta:
+        verbose_name = _("Abonné Newsletter")
+        verbose_name_plural = _("Abonnés Newsletter")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.email

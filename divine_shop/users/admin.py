@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .forms import UserAdminChangeForm
 from .forms import UserAdminCreationForm
-from .models import Testimonial, User
+from .models import NewsletterUser, Testimonial, User
 
 if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
     admin.autodiscover()
@@ -64,3 +64,19 @@ class TestimonialAdmin(admin.ModelAdmin):
     
     # Rend les dates de création visibles mais non modifiables
     readonly_fields = ["created_at", "updated_at"]
+
+
+@admin.register(NewsletterUser)  
+class NewsletterUserAdmin(admin.ModelAdmin):
+    
+    # Les colonnes visibles dans la liste
+    list_display = ["email", "is_active", "has_received_welcome_coupon", "created_at"]
+    
+    # Filtres rapides sur la droite
+    list_filter = ["is_active", "has_received_welcome_coupon", "created_at"]
+    
+    # Barre de recherche pour chercher un mail précis
+    search_fields = ["email"]
+    
+    # Actions rapides pour activer/désactiver un abonné depuis la liste
+    list_editable = ["is_active"]
