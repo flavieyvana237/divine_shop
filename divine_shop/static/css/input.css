@@ -365,6 +365,45 @@
   }
 }
 
+/* ===== 4. COMPOSANTS FOOTER ===== */
+
+/* Footer Links */
+.footer-link {
+  @apply text-slate-400 hover:text-white text-xs uppercase tracking-widest transition-all duration-300 relative inline-block;
+}
+
+.footer-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-px bg-amber-500 transition-all duration-300;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* Payment Badges */
+.payment-badge {
+  @apply bg-slate-800 text-slate-400 text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded hover:bg-amber-600 hover:text-white transition-all duration-300 cursor-pointer;
+}
+
+/* Footer Social Icons (si tu veux une alternative) */
+.footer-social-icon {
+  @apply w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300;
+}
+
+.footer-social-icon span {
+  @apply text-slate-400 group-hover:text-white text-xs font-bold;
+}
+
+/* Newsletter Input Footer */
+.footer-newsletter-input {
+  @apply flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-600 transition-all duration-300;
+}
+
+.footer-newsletter-btn {
+  @apply bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-lg transition-all duration-300;
+}
+
 /* ===== 3. UTILITAIRES RESPONSIVE ===== */
 @layer utilities {
   .h-400px { height: 400px; }

@@ -1,58 +1,151 @@
-<footer class="w-full py-24 px-8 bg-slate-950 text-white mt-16">
-  <div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
-    <div class="md:col-span-2 flex flex-col space-y-6">
-      <h2 class="text-3xl font-serif italic text-white">Divine Shop</h2>
-      <p class="text-slate-400 text-sm leading-relaxed font-light max-w-md">
-        Preserving artisanal heritage through sustainable, luxury accessories.
-        Each piece tells a story of tradition and love, connecting cultures through beauty.
-      </p>
-    </div>
-    <div class="flex flex-col space-y-4">
-      <h4 class="font-bold text-[10px] uppercase tracking-[0.3em] text-amber-500 mb-2">Shop</h4>
-      <nav class="flex flex-col space-y-3">
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">New Arrivals</a>
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">Necklaces</a>
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">Earrings</a>
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">Bracelets</a>
-      </nav>
-    </div>
-    <div class="flex flex-col space-y-4">
-      <h4 class="font-bold text-[10px] uppercase tracking-[0.3em] text-amber-500 mb-2">Support</h4>
-      <nav class="flex flex-col space-y-3">
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">Shipping</a>
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">Privacy Policy</a>
-        <a class="text-slate-200 hover:text-white text-xs uppercase tracking-widest transition-colors"
-           href="#">FAQ</a>
-      </nav>
-    </div>
-    <div class="flex flex-col space-y-6">
-      <h4 class="font-bold text-[10px] uppercase tracking-[0.3em] text-amber-500 mb-2">Contact</h4>
-      <div class="text-slate-200 text-xs flex flex-col space-y-3 tracking-widest">
-        <p>contact@divineshop.com</p>
-        <p>+33 1 23 45 67 89</p>
+<footer class="w-full bg-slate-950 text-white relative overflow-hidden mt-16">
+  
+  {# Glow Effect Premium #}
+  <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-amber-500/[0.02] rounded-full blur-[100px] pointer-events-none"></div>
+
+  {# --- MAIN FOOTER CONTENT --- #}
+  <div class="relative z-10 max-w-[1920px] mx-auto px-6 md:px-16 py-20 lg:py-24">
+    
+    {# Grid Principal - 4 colonnes sur desktop #}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+      
+      {# --- COLONNE 1: BRAND (4 colonnes) --- #}
+      <div class="lg:col-span-4 space-y-6">
+        {# Logo avec effet de glow au hover #}
+        <div class="group cursor-pointer">
+          <h2 class="text-3xl lg:text-4xl font-serif italic text-white group-hover:text-amber-500 transition-colors duration-300">
+            Divine<span class="text-amber-500"> Shop</span>
+          </h2>
+          <div class="w-12 h-0.5 bg-amber-500/50 mt-3 group-hover:w-20 transition-all duration-500"></div>
+        </div>
+        
+        {# Description #}
+        <p class="text-slate-400 text-sm leading-relaxed font-light max-w-md">
+          Preserving artisanal heritage through sustainable, luxury accessories. 
+          Each piece tells a story of tradition and love, connecting cultures through beauty.
+        </p>
+        
+        {# Réseaux Sociaux - Version premium #}
+        <div class="flex space-x-4 pt-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300 group">
+            <span class="text-slate-400 group-hover:text-white text-xs font-bold uppercase tracking-widest">IG</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300 group">
+            <span class="text-slate-400 group-hover:text-white text-xs font-bold uppercase tracking-widest">FB</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300 group">
+            <span class="text-slate-400 group-hover:text-white text-xs font-bold uppercase tracking-widest">PIN</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300 group">
+            <span class="text-slate-400 group-hover:text-white text-xs font-bold uppercase tracking-widest">YT</span>
+          </a>
+        </div>
       </div>
-      <div class="flex space-x-6 pt-4">
-        <a href="#" class="text-slate-400 hover:text-white transition-colors">
-          <span class="text-[10px] font-bold uppercase tracking-widest">Instagram</span>
-        </a>
-        <a href="#" class="text-slate-400 hover:text-white transition-colors">
-          <span class="text-[10px] font-bold uppercase tracking-widest">Facebook</span>
-        </a>
+      
+      {# --- COLONNE 2: LIENS RAPIDES (2 colonnes) --- #}
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="section-label !text-amber-500 !mb-4">Navigation</h4>
+        <nav class="flex flex-col space-y-3">
+          <a href="#" class="footer-link">Accueil</a>
+          <a href="#" class="footer-link">Boutique</a>
+          <a href="#" class="footer-link">Nouveautés</a>
+          <a href="#" class="footer-link">Collections</a>
+          <a href="#" class="footer-link">Contact</a>
+        </nav>
       </div>
+      
+      {# --- COLONNE 3: SUPPORT CLIENT (2 colonnes) --- #}
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="section-label !text-amber-500 !mb-4">Support</h4>
+        <nav class="flex flex-col space-y-3">
+          <a href="#" class="footer-link">Livraison</a>
+          <a href="#" class="footer-link">Retours</a>
+          <a href="#" class="footer-link">FAQ</a>
+          <a href="#" class="footer-link">Conditions Générales</a>
+          <a href="#" class="footer-link">Confidentialité</a>
+        </nav>
+      </div>
+      
+      {# --- COLONNE 4: CONTACT & NEWSLETTER (4 colonnes) --- #}
+      <div class="lg:col-span-4 space-y-6">
+        <h4 class="section-label !text-amber-500 !mb-4">Contactez-nous</h4>
+        
+        {# Contact Items #}
+        <div class="space-y-4">
+          <div class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-slate-800 group-hover:bg-amber-600 flex items-center justify-center transition-all duration-300">
+              <span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-white">mail</span>
+            </div>
+            <span class="text-slate-300 text-sm group-hover:text-white transition-colors">contact@divineshop.com</span>
+          </div>
+          
+          <div class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-slate-800 group-hover:bg-amber-600 flex items-center justify-center transition-all duration-300">
+              <span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-white">call</span>
+            </div>
+            <span class="text-slate-300 text-sm group-hover:text-white transition-colors">+33 1 23 45 67 89</span>
+          </div>
+          
+          <div class="flex items-start gap-3 group cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-slate-800 group-hover:bg-amber-600 flex items-center justify-center transition-all duration-300 mt-0.5">
+              <span class="material-symbols-outlined text-sm text-slate-400 group-hover:text-white">location_on</span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-slate-300 text-sm group-hover:text-white transition-colors block">123 Rue du Faubourg Saint-Honoré</span>
+              <span class="text-slate-500 text-xs block">75008 Paris, France</span>
+            </div>
+          </div>
+        </div>
+        
+        {# Mini Newsletter inline #}
+        <div class="pt-4">
+          <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">Newsletter exclusive</p>
+          <div class="flex gap-2">
+            <input type="email" placeholder="Votre email" 
+                   class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-600 transition-all duration-300" />
+            <button class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-lg transition-all duration-300 group">
+              <span class="material-symbols-outlined text-sm group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
     </div>
-  </div>
-  <div class="max-w-screen-2xl mx-auto mt-20 pt-8 border-t border-slate-800 flex justify-between items-center text-slate-500">
-    <span class="text-[10px] uppercase tracking-[0.2em]">© 2024 Divine Shop. Handcrafted with Love.</span>
-    <div class="flex items-center space-x-3 text-[10px] uppercase tracking-[0.2em]">
-      <span>English</span>
-      <span class="text-slate-700">|</span>
-      <span>USD</span>
+    
+    {# --- BOTTOM FOOTER : Copyright, Paiements, Mentions --- #}
+    <div class="mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500">
+      
+      {# Copyright #}
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">copyright</span>
+        <span class="text-[10px] uppercase tracking-[0.2em]">2024 Divine Shop. Tous droits réservés.</span>
+      </div>
+      
+      {# Méthodes de paiement #}
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-slate-600">Paiement sécurisé</span>
+        <div class="flex gap-2">
+          <span class="payment-badge">VISA</span>
+          <span class="payment-badge">MC</span>
+          <span class="payment-badge">PayPal</span>
+          <span class="payment-badge">Apple Pay</span>
+        </div>
+      </div>
+      
+      {# Mentions légales #}
+      <div class="flex items-center gap-4">
+        <a href="#" class="text-[10px] uppercase tracking-[0.2em] text-slate-500 hover:text-amber-500 transition-colors">Mentions légales</a>
+        <span class="text-slate-700 text-xs">|</span>
+        <a href="#" class="text-[10px] uppercase tracking-[0.2em] text-slate-500 hover:text-amber-500 transition-colors">CGV</a>
+        <span class="text-slate-700 text-xs">|</span>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-slate-500">FR</span>
+          <span class="text-slate-700 text-xs">|</span>
+          <span class="text-[10px] uppercase tracking-[0.2em] text-slate-500">EUR</span>
+        </div>
+      </div>
+      
     </div>
   </div>
 </footer>
