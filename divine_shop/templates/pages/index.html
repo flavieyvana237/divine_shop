@@ -17,9 +17,11 @@
     {% include "pages/includes/new_product.html"%}
     {% include "pages/includes/testimonials.html" %}
     {% include "pages/includes/newsletter.html" %}
+    {% include "pages/includes/newsletter_subscribe.html" %}
   </main>
 {% endblock body %}
 {% block extra_js %}
   <script src="{% static 'js/countdown.js' %}"></script>
   <script src="{% static 'js/testimonials.js' %}"></script>
+  <script src="{% static 'js/newsletter_subscribe.js' %}"></script>
 {% endblock extra_js %}

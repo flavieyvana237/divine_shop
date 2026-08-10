@@ -1,46 +1,34 @@
 {% extends "pages/base.html" %}
-
 {% load static %}
 
-{% block title %}
-  Boutique — Divine Shop
-{% endblock title %}
+{% block title %}Boutique — Divine Shop{% endblock %}
+
 {% block body %}
-  <!-- Header avec image de fond — ton design original -->
-</br />
-</br />
-</br />
-<section class="bg-white py-12 px-4 md:px-8 border-b border-stone-100">
-  <div class="container mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-8">
-    <!-- Texte gauche -->
+
+{# ───── HERO BOUTIQUE ───── #}
+<section class="bg-white py-10 px-4 md:px-8 border-b border-stone-100 pt-20">
+  <div class="max-w-screen-2xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-8">
     <div class="w-full md:w-1/2 flex flex-col gap-5">
-      <!-- Badge -->
       <span class="inline-flex items-center gap-2 w-fit bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full">
         ✦ Artisanat d'Exception
       </span>
-      <!-- Titre avec mélange de couleurs -->
       <h1 class="text-3xl md:text-4xl font-serif leading-tight">
         <span class="text-stone-900">L'élégance</span>
-        <span class="italic text-amber-600">intemporelle,</span>
-        <br />
+        <span class="italic text-amber-600">intemporelle,</span><br/>
         <span class="text-stone-900">façonnée</span>
         <span class="text-stone-600 font-light">à la main</span>
       </h1>
-      <!-- Séparateur décoratif -->
       <div class="flex items-center gap-3">
         <div class="h-px w-8 bg-amber-400"></div>
         <span class="text-amber-400 text-xs">✦</span>
         <div class="h-px w-8 bg-amber-400"></div>
       </div>
-      <!-- Description -->
-      <p class="text-stone-500 font-light text-base leading-relaxed max-w-md pl-8">
+      <p class="text-stone-500 font-light text-base leading-relaxed max-w-md">
         Découvrez nos accessoires en perles, façonnés à la main avec passion.
         Chaque pièce raconte une histoire d'élégance et de
-        <span class="text-amber-700 font-medium">savoir-faire artisanal</span>
-        hérité de nos traditions.
+        <span class="text-amber-700 font-medium">savoir-faire artisanal</span>.
       </p>
-      <!-- Stats rapides -->
-      <div class="flex gap-8 pt-2 pl-20">
+      <div class="flex gap-8 pt-2">
         <div class="flex flex-col">
           <span class="text-2xl font-bold text-stone-800">100%</span>
           <span class="text-xs text-green-700 uppercase tracking-wider">Fait main</span>
@@ -57,101 +45,155 @@
         </div>
       </div>
     </div>
-    <!-- Image droite -->
     <div class="w-full md:w-1/2 flex justify-center md:justify-end relative">
-      <!-- Cercle décoratif derrière l'image -->
       <div class="absolute w-72 h-72 rounded-full bg-amber-50 -z-0"></div>
       <img src="{% static 'images/products/panier1.png' %}"
-           alt="Accessoires en perles Divine Shop"
-           class="relative z-10 max-w-xs md:max-w-sm h-auto mix-blend-multiply pr-20" />
+           alt="Accessoires en perles"
+           class="relative z-10 max-w-xs md:max-w-sm h-auto mix-blend-multiply" />
     </div>
   </div>
 </section>
-<!-- Contenu principal -->
-<main class="max-w-screen-2xl mx-auto px-8 py-16">
-  <div class="flex flex-col lg:flex-row gap-16">
-    <!-- Sidebar filtres -->
-    <aside class="w-full lg:w-64 flex-shrink-0">
-      <h2 class="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-6">Catégories</h2>
-      <ul class="space-y-1">
-        <li>
-          <a href="{% url 'catalog:product_list' %}"
-             class="block px-3 py-2 rounded-lg text-stone-600 hover:text-amber-700 hover:bg-amber-50 transition-colors duration-200 text-sm {% if not current_category %}font-semibold text-amber-700{% endif %}">
-            Tous les produits
-          </a>
-        </li>
-        {% for category in categories %}
-          <li>
-            <a href="{% url 'catalog:category_products' category.slug %}"
-               class="block px-3 py-2 rounded-lg text-stone-600 hover:text-amber-700 hover:bg-amber-50 transition-colors duration-200 text-sm {% if current_category.slug == category.slug %}font-semibold text-amber-700{% endif %}">
-              {{ category.name }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </aside>
-    <!-- Grille produits -->
-    <div class="flex-1">
-      <!-- Nombre de résultats -->
-      <p class="text-stone-400 text-sm mb-8">
-        {{ paginator.count }} produit{{ paginator.count|pluralize }} trouvé{{ paginator.count|pluralize }}
-      </p>
-      {% if not products %}
-        <p class="text-slate-500 italic">Aucun article disponible pour le moment.</p>
-      {% else %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-16">
-          {% for product in products %}
-            <!-- Carte produit -->
-            <a href="{% url 'catalog:product_detail' product.slug %}"
-               class="group flex flex-col">
-              <!-- Image -->
-              <div class="aspect-square overflow-hidden rounded-xl bg-stone-100 mb-4">
-                {% with product.get_main_image as main_image %}
-                  {% if main_image %}
-                    <img src="{{ main_image.image.url }}"
-                         alt="{{ product.name }}"
-                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  {% else %}
-                    <div class="w-full h-full flex items-center justify-center">
-                      <span class="text-stone-300 text-sm">Aucune image</span>
-                    </div>
-                  {% endif %}
-                {% endwith %}
-              </div>
-              <!-- Infos -->
-              <div class="flex flex-col flex-1">
-                <p class="text-xs text-amber-600 uppercase tracking-wider mb-1">{{ product.category.name }}</p>
-                <h3 class="text-stone-800 font-medium mb-2 group-hover:text-amber-700 transition-colors duration-200">
-                  {{ product.name }}
-                </h3>
-                <div class="flex items-center justify-between mt-auto">
-                  <span class="text-stone-800 font-semibold">{{ product.price }} FCFA</span>
-                  {% if product.is_in_stock %}
-                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">En stock</span>
-                  {% else %}
-                    <span class="text-xs text-red-500 bg-red-50 px-2 py-1 rounded-full">Rupture</span>
-                  {% endif %}
-                </div>
-              </div>
-            </a>
-          {% endfor %}
+
+{# ───── BOUTON FILTRES MOBILE ───── #}
+<div class="lg:hidden sticky top-0 z-30 bg-white border-b border-stone-100 px-4 py-3 flex items-center justify-between">
+  <p class="text-sm text-stone-500">Filtrer les produits</p>
+  <button onclick="document.getElementById('mobile-filters').classList.toggle('hidden')"
+          class="flex items-center gap-2 text-sm font-medium text-stone-700 border border-stone-200 rounded-lg px-4 py-2 hover:border-amber-400 transition-colors">
+    <span class="material-symbols-outlined text-[18px]">filter_list</span>
+    Filtres
+  </button>
+</div>
+
+{# ───── CONTENU PRINCIPAL ───── #}
+<main class="max-w-screen-2xl mx-auto px-4 md:px-8 py-10">
+  <div class="flex flex-col lg:flex-row gap-10">
+
+    {# ── SIDEBAR FILTRES ── #}
+    <aside id="mobile-filters" class="hidden lg:block w-full lg:w-72 flex-shrink-0">
+      <form method="GET" id="filter-form">
+        
+        {# CHAMP CACHÉ POUR LA CATÉGORIE EN COURS #}
+        <input type="hidden" name="category" id="category-input" value="{{ current_category }}" />
+        <input type="hidden" name="page" id="page-input" value="1" />
+
+        {# En-tête sidebar #}
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-sm font-bold uppercase tracking-widest text-stone-800">Filtres</h2>
+          <button type="button" id="reset-filters"
+                  class="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors">
+            Réinitialiser
+          </button>
         </div>
-        <!-- Pagination -->
-        {% if is_paginated %}
-          <div class="mt-20 flex justify-center items-center gap-8 border-t border-slate-100 pt-10">
-            {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}"
-                 class="text-slate-400 hover:text-slate-900 uppercase text-xs tracking-widest">← Précédent</a>
-            {% endif %}
-            <span class="text-amber-600 font-bold border-b-2 border-amber-600 px-2">{{ page_obj.number }}</span>
-            {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}"
-                 class="text-slate-400 hover:text-slate-900 uppercase text-xs tracking-widest">Suivant →</a>
-            {% endif %}
+
+        {# Recherche #}
+        <div class="mb-6">
+          <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">
+            Recherche
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-300 text-[18px]">search</span>
+            <input type="text" name="q" id="search-input" value="{{ current_filters.q }}"
+                   placeholder="Nom du produit..."
+                   class="w-full pl-9 pr-4 py-2.5 text-sm border border-stone-200 rounded-lg focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all" />
           </div>
-        {% endif %}
-      {% endif %}
+        </div>
+
+        <div class="h-px bg-stone-100 mb-6"></div>
+
+        {# Catégories #}
+        <div class="mb-6">
+          <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">
+            Catégories
+          </label>
+          <ul class="space-y-1" id="category-list">
+            <li>
+              <button type="button" data-category=""
+                 class="category-btn w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors
+                        {% if not current_category %}bg-amber-50 text-amber-700 font-semibold{% else %}text-stone-600 hover:bg-stone-50{% endif %}">
+                <span class="w-1.5 h-1.5 rounded-full {% if not current_category %}bg-amber-500{% else %}bg-stone-200{% endif %}"></span>
+                Tous les produits
+              </button>
+            </li>
+            {% for cat in categories %}
+            <li>
+              <button type="button" data-category="{{ cat.slug }}"
+                 class="category-btn w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors
+                        {% if current_category == cat.slug %}bg-amber-50 text-amber-700 font-semibold{% else %}text-stone-600 hover:bg-stone-50{% endif %}">
+                <span class="w-1.5 h-1.5 rounded-full {% if current_category == cat.slug %}bg-amber-500{% else %}bg-stone-200{% endif %}"></span>
+                {{ cat.name }}
+              </button>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="h-px bg-stone-100 mb-6"></div>
+
+        {# Prix #}
+        <div class="mb-6">
+          <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">
+            Fourchette de prix
+          </label>
+          <div class="flex gap-2 items-center">
+            <input type="number" name="price_min" value="{{ current_filters.price_min }}"
+                   placeholder="Min"
+                   class="w-full px-3 py-2 text-sm border border-stone-200 rounded-lg focus:outline-none focus:border-amber-400 transition-all" />
+            <span class="text-stone-300 text-xs">—</span>
+            <input type="number" name="price_max" value="{{ current_filters.price_max }}"
+                   placeholder="Max"
+                   class="w-full px-3 py-2 text-sm border border-stone-200 rounded-lg focus:outline-none focus:border-amber-400 transition-all" />
+          </div>
+          <p class="text-xs text-stone-400 mt-1">En FCFA</p>
+        </div>
+
+        <div class="h-px bg-stone-100 mb-6"></div>
+
+        {# Options #}
+        <div class="mb-6 space-y-3">
+          <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">
+            Options
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="checkbox" name="available" value="1"
+                   {% if current_filters.available %}checked{% endif %}
+                   class="w-4 h-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400" />
+            <span class="text-sm text-stone-600 group-hover:text-stone-800">En stock uniquement</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="checkbox" name="is_new" value="1"
+                   {% if current_filters.is_new %}checked{% endif %}
+                   class="w-4 h-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400" />
+            <span class="text-sm text-stone-600 group-hover:text-stone-800">Nouveautés</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="checkbox" name="is_featured" value="1"
+                   {% if current_filters.is_featured %}checked{% endif %}
+                   class="w-4 h-4 rounded border-stone-300 text-amber-600 focus:ring-amber-400" />
+            <span class="text-sm text-stone-600 group-hover:text-stone-800">Produits vedettes</span>
+          </label>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-stone-900 hover:bg-amber-700 text-white text-xs font-bold uppercase tracking-widest py-3 rounded-xl transition-colors duration-300">
+          Appliquer les filtres
+        </button>
+
+      </form>
+    </aside>
+
+    {# ── CONTENEUR PRODUITS DYNAMIQUE ── #}
+    <div class="flex-1 min-w-0" id="products-container">
+      {% include "products/catalog/product_grid.html" %}
     </div>
+
   </div>
 </main>
+
 {% endblock body %}
+
+{% block extra_js %}
+<script src="{% static 'js/cart.js' %}"></script>
+<script src="{% static 'js/product_list.js' %}">
+
+</script>
+{% endblock extra_js %}

@@ -1,11 +1,55 @@
 @import "tailwindcss";
 @config "../../../tailwind.config.js";
 
-/* Tailwind 4 - Force scanning of toast classes if they are not picked up from JS */
-/* .toast-classes { @apply fixed z-[100] flex flex-col gap-4 bg-white border-l-4 border-emerald-500 rounded-xl shadow-2xl p-4 transition-all duration-300; } */
+/* ============================================
+   TAILWIND 4 - DIVINE SHOP DESIGN SYSTEM
+   ============================================ */
 
+/* ===== 1. ANIMATIONS GLOBALES ===== */
+@layer base {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes divineFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes divineGlowPulse {
+    0%, 100% {
+      opacity: 0.04;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.08;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+  }
+
+  @keyframes divineShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+/* ===== 2. COMPOSANTS DE BASE (LAYERS) ===== */
 @layer components {
-  /* --- Boutons --- */
+  
+  /* --- BOUTONS --- */
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-white bg-slate-900 hover:bg-amber-600 rounded-sm transition-all duration-300;
   }
@@ -14,44 +58,15 @@
     @apply inline-flex items-center justify-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest text-slate-900 border border-slate-200 hover:border-amber-600 hover:text-amber-600 rounded-sm transition-all duration-300;
   }
 
-  /* --- Liens de Navigation --- */
-  .nav-link {
-    @apply text-sm font-medium text-slate-500 hover:text-amber-600 transition-colors duration-300;
+  /* Bouton d'action au survol - Version corrigée pour v4 */
+  .btn-explore-category {
+    @apply inline-block bg-amber-600 text-white px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-sm;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: all 0.5s ease-out;
   }
 
-  .nav-link-active {
-    @apply text-sm font-medium text-slate-900 border-b-2 border-amber-600 pb-1;
-  }
-
-  /* --- Typographie --- */
-  .text-title-hero {
-    @apply font-serif text-4xl md:text-6xl text-slate-900 leading-tight;
-  }
-
-  .text-section-title {
-    @apply font-serif text-3xl text-slate-900 text-center mb-8;
-  }
-
-  .text-muted {
-    @apply text-sm leading-relaxed text-slate-500;
-  }
-
-
-
-  /* Classe pour la boîte englobante de l'image du produit */
-  .product-image-container {
-    @apply w-full overflow-hidden relative rounded-sm bg-slate-50;
-    /* On définit la hauteur ici une seule fois */
-    height: 380px;
-  }
-
-  /* Version responsive si tu veux qu'elle change sur mobile */
-  @variant md {
-    .product-image-container {
-      height: 420px;
-    }
-  }
-  /* --- Typographie --- */
+  /* --- TYPOGRAPHIE --- */
   .text-title-hero {
     @apply font-serif italic text-4xl md:text-6xl text-slate-900 leading-tight;
   }
@@ -60,25 +75,112 @@
     @apply font-serif italic text-3xl md:text-5xl text-slate-900 text-center mb-12;
   }
 
+  .text-muted {
+    @apply text-sm leading-relaxed text-slate-500;
+  }
 
+  .section-label {
+    @apply font-bold text-[10px] uppercase tracking-[0.4em] text-amber-600 mb-3 block;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-serif text-slate-900 leading-tight;
+  }
+
+  .section-link {
+    @apply text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-amber-600 transition-colors border-b border-slate-100 hover:border-amber-600 pb-1 flex-shrink-0;
+  }
+
+  /* --- LIENS DE NAVIGATION --- */
   .nav-link {
     @apply text-sm font-medium text-slate-600 uppercase tracking-widest
            hover:text-amber-600 transition-colors duration-200
-           relative after:absolute after:bottom-0 after:left-0
-           after:w-0 after:h-[2px] after:bg-amber-600
-           after:transition-all after:duration-300
-           hover:after:w-full;
+           relative;
   }
-
-  /* Lien navbar actif */
-  .nav-link-active {
-    @apply text-sm font-medium text-amber-600 uppercase tracking-widest
-           relative after:absolute after:bottom-0 after:left-0
-           after:w-full after:h-[2px] after:bg-amber-600;
-  }
-
   
-  /* Carousel */
+  /* Effet underline en CSS pur (pas de @apply avec after) */
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-amber-600 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link-active {
+    @apply text-sm font-medium text-amber-600 uppercase tracking-widest relative;
+  }
+  
+  .nav-link-active::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-amber-600;
+  }
+
+  /* --- CARTES PRODUITS --- */
+  .product-card {
+    @apply flex flex-col cursor-pointer;
+  }
+
+  .product-image-container {
+    @apply w-full overflow-hidden relative rounded-sm bg-slate-50;
+    height: 380px;
+  }
+
+  @variant md {
+    .product-image-container {
+      height: 420px;
+    }
+  }
+
+  .product-badge-sale {
+    @apply absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full z-10;
+  }
+
+  .product-badge-new {
+    @apply absolute top-3 left-3 bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full z-10;
+  }
+
+  .product-badge-featured {
+    @apply absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full z-10;
+  }
+
+  .product-quick-add {
+    @apply absolute bottom-0 left-0 right-0 flex items-center justify-center py-3;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+  }
+  
+  .product-card:hover .product-quick-add {
+    transform: translateY(0);
+  }
+
+  .product-quick-add-btn {
+    @apply flex items-center gap-2 text-white text-xs font-semibold uppercase tracking-widest hover:text-amber-600 transition-colors;
+  }
+
+  /* --- CARTES CATÉGORIES (corrigées v4) --- */
+  .category-card-large {
+    @apply md:col-span-7 relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
+  }
+  
+  .category-card-medium {
+    @apply relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
+  }
+  
+  .category-card-small {
+    @apply relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
+  }
+  
+  /* Animation hover pour les boutons des catégories */
+  .category-card-large:hover .btn-explore-category,
+  .category-card-medium:hover .btn-explore-category,
+  .category-card-small:hover .btn-explore-category {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* --- CARROUSEL HERO --- */
   .hero-slide {
     @apply absolute inset-0 transition-opacity duration-700 ease-in-out;
   }
@@ -91,26 +193,168 @@
     @apply opacity-0 z-0 pointer-events-none;
   }
 
-  /* Indicateurs carousel */
   .carousel-dot {
-    @apply w-2 h-2 rounded-full bg-white/40 cursor-pointer
-           transition-all duration-300 hover:bg-white/70;
+    @apply w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all duration-300 hover:bg-white/70;
   }
 
   .carousel-dot-active {
     @apply w-3 bg-amber-500;
   }
 
-  /* Bento grid images */
-  .bento-image {
-    @apply rounded-xl overflow-hidden cursor-pointer
-           transition-transform duration-300 hover:scale-105;
+  /* --- COMPOSANTS DIVINE SHOP --- */
+  .divine-card {
+    @apply rounded-3xl overflow-hidden shadow-xl border border-stone-200/50 transition-all duration-500;
+  }
+  .divine-card:hover {
+    @apply shadow-2xl border-amber-600/20;
   }
 
-  /* Lightbox */
+  .divine-gradient-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent;
+  }
+
+  .divine-prestige-badge {
+    @apply text-[10px] uppercase font-bold tracking-[0.3em] block mb-2;
+  }
+  .divine-prestige-badge--amber {
+    @apply text-amber-400;
+  }
+  .divine-prestige-badge--stone {
+    @apply text-amber-600;
+  }
+
+  .divine-section-title {
+    @apply text-4xl md:text-5xl font-serif leading-tight;
+  }
+  .divine-section-subtitle {
+    @apply text-sm md:text-base mt-4 leading-relaxed max-w-xl;
+  }
+
+  .divine-input-icon {
+    @apply absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-[18px];
+  }
+  .divine-input {
+    @apply w-full bg-white border rounded-xl pl-12 pr-4 py-4 text-sm transition-all duration-300 shadow-sm;
+  }
+  .divine-input:focus {
+    @apply outline-none border-amber-600 ring-1 ring-amber-600;
+  }
+
+  .divine-btn-primary {
+    @apply font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-2 shadow-md cursor-pointer;
+  }
+  .divine-btn-primary--amber {
+    @apply bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/10;
+  }
+  .divine-btn-primary-icon {
+    @apply text-[14px];
+  }
+  .divine-btn-primary:hover .divine-btn-primary-icon {
+    transform: translateX(2px);
+  }
+
+  .divine-animate-fade-up {
+    animation: divineFadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+  }
+
+  .divine-glow {
+    @apply absolute top-1/2 left-1/2 w-[800px] h-[800px] rounded-full -translate-x-1/2 -translate-y-1/2 blur-[130px] pointer-events-none;
+  }
+  .divine-glow--amber {
+    @apply bg-amber-500/[0.04];
+    animation: divineGlowPulse 8s ease-in-out infinite;
+  }
+
+  .divine-carousel-indicators {
+    @apply absolute z-30 flex space-x-2 bottom-6 left-10;
+  }
+  .divine-carousel-indicator {
+    @apply h-1.5 rounded-full transition-all duration-300;
+  }
+  .divine-carousel-indicator--active {
+    @apply w-8 bg-amber-600;
+  }
+  .divine-carousel-indicator--inactive {
+    @apply w-3 bg-white/50 hover:bg-white/80;
+  }
+
+  .divine-slide-content {
+    @apply absolute bottom-10 left-10 right-10 text-left z-10;
+  }
+  .divine-slide-title {
+    @apply text-2xl md:text-3xl font-serif italic text-white leading-tight max-w-sm ;
+  }
+  .divine-slide-highlight {
+    @apply text-amber-400 font-bold font-sans;
+  }
+
+  .divine-section-container {
+    @apply w-full py-24 px-6 md:px-16 relative overflow-hidden my-0;
+  }
+  .divine-section-container--light {
+    @apply bg-stone-100 text-stone-900;
+  }
+
+  .divine-grid-2cols {
+    @apply grid grid-cols-1 lg:grid-cols-12 gap-16 items-center;
+  }
+  .divine-col-left {
+    @apply lg:col-span-6 w-full relative;
+  }
+  .divine-col-right {
+    @apply lg:col-span-6 flex flex-col gap-8 lg:pl-10 text-left;
+  }
+
+  .divine-loader {
+    @apply w-4 h-4 border-2 border-white/30 border-t-white rounded-full;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .divine-message {
+    @apply p-3 rounded-lg text-sm transition-all duration-300;
+  }
+  .divine-message--success {
+    @apply bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+  .divine-message--error {
+    @apply bg-red-50 text-red-700 border border-red-200;
+  }
+
+  .divine-btn-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background-size: 200% 100%;
+    animation: divineShimmer 3s infinite;
+  }
+
+  /* --- COUNTDOWN --- */
+  .countdown-block {
+    @apply flex flex-col items-center bg-stone-800 border border-stone-700 rounded-xl px-4 py-3 min-w-[70px];
+  }
+
+  .countdown-number {
+    @apply text-2xl font-black text-white tabular-nums;
+  }
+
+  .countdown-label {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-stone-400 mt-1;
+  }
+
+  /* --- BENTO & LIGHTBOX --- */
+  .bento-image {
+    @apply rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105;
+  }
+
   .lightbox-overlay {
-    @apply fixed inset-0 bg-black/80 z-50 flex items-center
-           justify-center p-4 backdrop-blur-sm;
+    @apply fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm;
+  }
+
+  /* --- ANIMATIONS UTILITAIRES --- */
+  .animate-fade-in-up {
+    animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .fade-in-up {
@@ -119,109 +363,52 @@
   .fade-in-up.active {
     @apply opacity-100 translate-y-0;
   }
+}
 
- /* --- Cartes des catégories (Corrigé sans le 'group') --- */
-  .category-card-large {
-    @apply md:col-span-7 relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
-  }
-  .category-card-medium {
-    @apply relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
-  }
-  .category-card-small {
-    @apply relative overflow-hidden rounded-2xl bg-slate-100 cursor-pointer block transition-all duration-500 hover:shadow-xl border border-transparent hover:border-amber-200/50;
-  }
+/* ===== 4. COMPOSANTS FOOTER ===== */
 
-  /* Bouton d'action au survol */
-  .btn-explore-category {
-    @apply inline-block bg-fuchsia-400 text-slate-900 px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-sm transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out;
-  }
+/* Footer Links */
+.footer-link {
+  @apply text-slate-400 hover:text-white text-xs uppercase tracking-widest transition-all duration-300 relative inline-block;
+}
 
-  /* --- Animation PowerPoint automatique (Fade-In Up) --- */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+.footer-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-px bg-amber-500 transition-all duration-300;
+}
 
-  .animate-fade-in-up {
-    animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
+.footer-link:hover::after {
+  width: 100%;
+}
 
+/* Payment Badges */
+.payment-badge {
+  @apply bg-slate-800 text-slate-400 text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded hover:bg-amber-600 hover:text-white transition-all duration-300 cursor-pointer;
+}
+
+/* Footer Social Icons (si tu veux une alternative) */
+.footer-social-icon {
+  @apply w-9 h-9 rounded-full bg-slate-800 hover:bg-amber-600 flex items-center justify-center transition-all duration-300;
+}
+
+.footer-social-icon span {
+  @apply text-slate-400 group-hover:text-white text-xs font-bold;
+}
+
+/* Newsletter Input Footer */
+.footer-newsletter-input {
+  @apply flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-600 transition-all duration-300;
+}
+
+.footer-newsletter-btn {
+  @apply bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-lg transition-all duration-300;
+}
+
+/* ===== 3. UTILITAIRES RESPONSIVE ===== */
+@layer utilities {
+  .h-400px { height: 400px; }
   
-
-  /* Section — labels et titres réutilisables */
-  .section-label {
-    @apply font-bold text-[10px] uppercase tracking-[0.4em]
-           text-amber-600 mb-3 block;
+  @media (min-width: 768px) {
+    .md\:h-480px { height: 480px; }
   }
-
-  .section-title {
-    @apply text-3xl md:text-4xl font-serif text-slate-900 leading-tight;
-  }
-
-  .section-link {
-    @apply text-xs font-bold uppercase tracking-widest text-slate-400
-           hover:text-amber-600 transition-colors border-b border-slate-100
-           hover:border-amber-600 pb-1 flex-shrink-0;
-  }
-
-  /* Carte produit */
-  .product-card {
-    @apply flex flex-col cursor-pointer;
-  }
-
-  /* Badges */
-  .product-badge-sale {
-    @apply absolute top-3 left-3 bg-red-500 text-white
-           text-[10px] font-bold uppercase tracking-wider
-           px-2.5 py-1 rounded-full z-10;
-  }
-
-  .product-badge-new {
-    @apply absolute top-3 left-3 bg-emerald-500 text-white
-           text-[10px] font-bold uppercase tracking-wider
-           px-2.5 py-1 rounded-full z-10;
-  }
-
-  .product-badge-featured {
-    @apply absolute top-3 left-3 bg-amber-500 text-white
-           text-[10px] font-bold uppercase tracking-wider
-           px-2.5 py-1 rounded-full z-10;
-  }
-
-  /* Bouton panier rapide */
-  .product-quick-add {
-    @apply absolute bottom-0 left-0 right-0
-           
-           translate-y-full group-hover:translate-y-0
-           transition-transform duration-300 ease-out
-           flex items-center justify-center py-3;
-  }
-
-  .product-quick-add-btn {
-    @apply flex items-center gap-2 text-white text-xs
-           font-semibold uppercase tracking-widest
-           hover:text-blue-800 transition-colors;
-  }
-
- /* Countdown */
-  .countdown-block {
-    @apply flex flex-col items-center bg-stone-800 border border-stone-700
-           rounded-xl px-4 py-3 min-w-[70px];
-  }
-
-  .countdown-number {
-    @apply text-2xl font-black text-white tabular-nums;
-  }
-
-  .countdown-label {
-    @apply text-[10px] font-semibold uppercase tracking-wider
-           text-stone-400 mt-1;
-  }
-
 }

@@ -8,6 +8,7 @@ from django.db import models
 from divine_shop.products.models import Category, Promotion,Product
 from divine_shop.users.models import Testimonial 
 from django.utils import timezone
+from django.db.models import Q
 
 
 
@@ -67,34 +68,72 @@ class HomeView(TemplateView):
 
         return context
     
-class ProductListView(ListView):
-    """
-    Vue publique — liste tous les produits disponibles
-    Accessible à tout le monde (pas besoin d'être connecté)
-    """
 
+
+
+
+class ProductListView(ListView):
     model = Product
     template_name = "products/catalog/product_list.html"
     context_object_name = "products"
-    paginate_by = 12  # 12 produits par page
+    paginate_by = 12
 
     def get_queryset(self):
-        """
-        On retourne uniquement les produits disponibles
-        Optimisé avec select_related pour éviter les requêtes N+1
-        """
-        return (
+        qs = (
             Product.objects.filter(is_available=True)
             .select_related("category", "seller")
-            .prefetch_related("images")
+            .prefetch_related("images", "promotions")
         )
+
+        # Filtre catégorie
+        category_slug = self.request.GET.get("category")
+        if category_slug:
+            qs = qs.filter(category__slug=category_slug)
+
+        # Filtre prix
+        price_min = self.request.GET.get("price_min")
+        price_max = self.request.GET.get("price_max")
+        if price_min:
+            qs = qs.filter(price__gte=price_min)
+        if price_max:
+            qs = qs.filter(price__lte=price_max)
+
+        # Filtre disponibilité
+        only_available = self.request.GET.get("available")
+        if only_available:
+            qs = qs.filter(stock__gt=0)
+
+        # Filtre nouveautés
+        only_new = self.request.GET.get("is_new")
+        if only_new:
+            qs = qs.filter(is_new=True)
+
+        # Filtre vedettes
+        only_featured = self.request.GET.get("is_featured")
+        if only_featured:
+            qs = qs.filter(is_featured=True)
+
+        # Recherche par nom ou description
+        search = self.request.GET.get("q")
+        if search:
+            qs = qs.filter(
+                Q(name__icontains=search) | Q(description__icontains=search)
+            )
+
+        return qs
+
+    def get_template_names(self):
+        # Si c'est une requête AJAX/Fetch, on renvoie uniquement la grille
+        if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return ["products/catalog/product_grid.html"]
+        return [self.template_name]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # On passe toutes les catégories pour le menu de filtre
         context["categories"] = Category.objects.all()
+        context["current_filters"] = self.request.GET
+        context["current_category"] = self.request.GET.get("category", "")
         return context
-
 
 class ProductDetailView(DetailView):
     """

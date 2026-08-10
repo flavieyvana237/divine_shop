@@ -1,0 +1,151 @@
+{% comment %} templates/products/catalog/_product_grid.html {% endcomment %}
+
+{# Résultats + tri #}
+<div class="flex items-center justify-between mb-8">
+  <p class="text-sm text-stone-400">
+    <span class="font-semibold text-stone-700">{{ paginator.count }}</span>
+    produit{{ paginator.count|pluralize }} trouvé{{ paginator.count|pluralize }}
+  </p>
+</div>
+
+{% if not products %}
+  {# Aucun produit #}
+  <div class="flex flex-col items-center justify-center py-24 text-center">
+    <span class="material-symbols-outlined text-6xl text-stone-200 mb-4">inventory_2</span>
+    <h3 class="text-lg font-serif italic text-stone-400 mb-2">Aucun produit trouvé</h3>
+    <p class="text-sm text-stone-300 mb-6">Essayez d'autres filtres ou parcourez toute la boutique.</p>
+    <a href="{% url 'catalog:product_list' %}"
+       class="reset-filters-btn text-xs font-bold uppercase tracking-widest text-amber-600 hover:text-amber-700 border-b border-amber-400 pb-0.5">
+      Voir tous les produits
+    </a>
+  </div>
+{% else %}
+  {# Grille #}
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10">
+    {% for product in products %}
+    <div class="group flex flex-col relative">
+
+      {# Badge #}
+      {% with badge=product.get_badge %}
+      {% if badge %}
+      <div class="absolute top-3 left-3 z-10">
+        {% if badge == 'sale' %}
+          <span class="bg-red-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+            -{{ product.get_discount_percentage }}%
+          </span>
+        {% elif badge == 'new' %}
+          <span class="bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+            Nouveau
+          </span>
+        {% elif badge == 'featured' %}
+          <span class="bg-amber-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+            Vedette
+          </span>
+        {% elif badge == 'sold_out' %}
+          <span class="bg-stone-400 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+            Épuisé
+          </span>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
+      {# Image + bouton panier #}
+      <a href="{% url 'catalog:product_detail' product.slug %}"
+         class="block aspect-square overflow-hidden rounded-2xl bg-stone-50 mb-4 relative">
+        {% with product.get_main_image as main_image %}
+          {% if main_image %}
+            <img src="{{ main_image.image.url }}"
+                 alt="{{ product.name }}"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          {% else %}
+            <div class="w-full h-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-4xl text-stone-200">image</span>
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-all duration-500 rounded-2xl"></div>
+      </a>
+
+      {# Infos produit #}
+      <div class="flex flex-col flex-1 px-1">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-1">
+          {{ product.category.name }}
+        </p>
+
+        <a href="{% url 'catalog:product_detail' product.slug %}"
+           class="text-stone-800 font-medium text-sm mb-2 leading-snug hover:text-amber-700 transition-colors line-clamp-2">
+          {{ product.name }}
+        </a>
+
+        <div class="flex items-center justify-between mt-auto pt-3 border-t border-stone-100">
+          <div class="flex flex-col">
+            {% if product.is_on_sale %}
+              <span class="text-xs text-stone-400 line-through">{{ product.price }} FCFA</span>
+              <span class="text-base font-bold text-red-500">{{ product.get_promo_price }} FCFA</span>
+            {% else %}
+              <span class="text-base font-bold text-stone-800">{{ product.price }} FCFA</span>
+            {% endif %}
+          </div>
+
+          <div class="flex flex-col items-end gap-1">
+            {% if product.is_in_stock %}
+              <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">
+                En stock
+              </span>
+              <button
+                data-product-id="{{ product.id }}"
+                class="add-to-cart-btn flex items-center gap-1.5 bg-stone-900 hover:bg-amber-700 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors duration-300">
+                <span class="material-symbols-outlined text-[14px]">shopping_bag</span>
+                Ajouter
+              </button>
+            {% else %}
+              <span class="text-[10px] text-red-400 bg-red-50 px-2 py-0.5 rounded-full font-medium">
+                Épuisé
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {# ── PAGINATION ── #}
+  {% if is_paginated %}
+  <div class="mt-16 flex justify-center items-center gap-2 pagination-container">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}"
+         data-page="{{ page_obj.previous_page_number }}"
+         class="page-link flex items-center gap-1 px-4 py-2 rounded-lg border border-stone-200 text-xs font-medium text-stone-600 hover:border-amber-400 hover:text-amber-600 transition-all">
+        <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+        Précédent
+      </a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-900 text-white text-sm font-bold">
+          {{ num }}
+        </span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}"
+           data-page="{{ num }}"
+           class="page-link w-9 h-9 flex items-center justify-center rounded-lg border border-stone-200 text-sm text-stone-600 hover:border-amber-400 hover:text-amber-600 transition-all">
+          {{ num }}
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}"
+         data-page="{{ page_obj.next_page_number }}"
+         class="page-link flex items-center gap-1 px-4 py-2 rounded-lg border border-stone-200 text-xs font-medium text-stone-600 hover:border-amber-400 hover:text-amber-600 transition-all">
+        Suivant
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </a>
+    {% endif %}
+  </div>
+  {% endif %}
+{% endif %}
